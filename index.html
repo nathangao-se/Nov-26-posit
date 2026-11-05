@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en" data-template="editorial">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How I can better help the team</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/dev-menu-container.css">
+<style>
+  :root {
+    --page: #070908; --canvas: #0d100f; --ink: #f1f4f2; --muted: #a7b0ac;
+    --ink-body: #dde8e1; /* body copy: lighter than muted, not white, faint accent tint */
+    --dim: #6c7572; --hairline: rgba(255,255,255,.10); --hairline-soft: rgba(255,255,255,.06);
+    --fill-soft: rgba(255,255,255,.04); --fill-hover: rgba(255,255,255,.07);
+    --accent: #3dcd58; --accent-soft: #86e59b; --accent-wash: rgba(61,205,88,.10);
+    --glow:rgb(61 205 88 / var(--glow-a)); --glow-a:.30; --glow-edge: rgba(61,205,88,0);
+    --panel: #0f1312;
+    --sidebar-w: 440px; --pad: 48px; --r: 2px;
+  }
+  /* Templates: each sets its own surfaces, text and highlight. On light templates
+     --accent-soft is the darker shade, because it is used as text. */
+  html[data-template="slate"] {
+    --page:#070a10; --canvas:#0c111a; --panel:#111827;
+    --ink:#eef2f8; --muted:#a3adbf; --ink-body:#dde3ec; --dim:#6b7588;
+    --accent:#5b9dff; --accent-soft:#a9c9ff; --accent-wash:rgba(91,157,255,.10);
+    --glow:rgb(91 157 255 / var(--glow-a)); --glow-a:.30; --glow-edge:rgba(91,157,255,0);
+  }
+  html[data-template="warm"] {
+    --page:#0b0806; --canvas:#120d09; --panel:#19120c;
+    --ink:#f6efe6; --muted:#b8aa98; --ink-body:#ece4d8; --dim:#7d7062;
+    --accent:#f0a730; --accent-soft:#f6c46a; --accent-wash:rgba(240,167,48,.10);
+    --glow:rgb(240 167 48 / var(--glow-a)); --glow-a:.30; --glow-edge:rgba(240,167,48,0);
+  }
+  html[data-template="plum"] {
+    --page:#0b0710; --canvas:#120b18; --panel:#1a1022;
+    --ink:#f5eefa; --muted:#b3a5c0; --ink-body:#e9def2; --dim:#7a6c88;
+    --accent:#c77dff; --accent-soft:#e0b8ff; --accent-wash:rgba(199,125,255,.12);
+    --glow:rgb(199 125 255 / var(--glow-a)); --glow-a:.30; --glow-edge:rgba(199,125,255,0);
+  }
+  html[data-template="tide"] {
+    --page:#04100f; --canvas:#071615; --panel:#0b1f1d;
+    --ink:#e9f7f5; --muted:#9cb8b4; --ink-body:#d6ece8; --dim:#61807b;
+    --accent:#2dd4bf; --accent-soft:#8bead9; --accent-wash:rgba(45,212,191,.10);
+    --glow:rgb(45 212 191 / var(--glow-a)); --glow-a:.28; --glow-edge:rgba(45,212,191,0);
+  }
+  html[data-template="ember"] {
+    --page:#0c0a0a; --canvas:#141111; --panel:#1b1716;
+    --ink:#f7f1ee; --muted:#b5a9a4; --ink-body:#ece2dd; --dim:#7c706b;
+    --accent:#ff6b4a; --accent-soft:#ffaa94; --accent-wash:rgba(255,107,74,.10);
+    --glow:rgb(255 107 74 / var(--glow-a)); --glow-a:.28; --glow-edge:rgba(255,107,74,0);
+  }
+  html[data-template="moss"] {
+    --page:#090b06; --canvas:#10130b; --panel:#171b10;
+    --ink:#f1f4ea; --muted:#aab29a; --ink-body:#e2e8d4; --dim:#727a62;
+    --accent:#b5d334; --accent-soft:#d6ea85; --accent-wash:rgba(181,211,52,.10);
+    --glow:rgb(181 211 52 / var(--glow-a)); --glow-a:.26; --glow-edge:rgba(181,211,52,0);
+  }
+  html[data-template="dusk"] {
+    --page:#08081a; --canvas:#0e0e24; --panel:#15152f;
+    --ink:#efeffc; --muted:#a7a7c8; --ink-body:#dfdff5; --dim:#6e6e92;
+    --accent:#ff7ac6; --accent-soft:#ffb3de; --accent-wash:rgba(255,122,198,.10);
+    --glow:rgb(255 122 198 / var(--glow-a)); --glow-a:.26; --glow-edge:rgba(255,122,198,0);
+  }
+  html[data-template="paper"] {
+    color-scheme: light;
+    --page:#efe9dd; --canvas:#f7f3ea; --panel:#fffdf8;
+    --ink:#1d1a16; --muted:#5b544a; --ink-body:#2e2a24; --dim:#8a8273;
+    --hairline:rgba(29,26,22,.14); --hairline-soft:rgba(29,26,22,.08);
+    --fill-soft:rgba(29,26,22,.04); --fill-hover:rgba(29,26,22,.07);
+    --accent:#c2521f; --accent-soft:#9a3c12; --accent-wash:rgba(194,82,31,.10);
+    --glow:rgb(194 82 31 / var(--glow-a)); --glow-a:.75; --glow-edge:rgba(194,82,31,0);
+  }
+  html[data-template="fog"] {
+    color-scheme: light;
+    --page:#e8ecf2; --canvas:#f4f6fa; --panel:#ffffff;
+    --ink:#141a24; --muted:#4e5a6c; --ink-body:#232b38; --dim:#7d8798;
+    --hairline:rgba(20,26,36,.14); --hairline-soft:rgba(20,26,36,.08);
+    --fill-soft:rgba(20,26,36,.04); --fill-hover:rgba(20,26,36,.07);
+    --accent:#4f46e5; --accent-soft:#3730a3; --accent-wash:rgba(79,70,229,.10);
+    --glow:rgb(79 70 229 / var(--glow-a)); --glow-a:.75; --glow-edge:rgba(79,70,229,0);
+  }
+  /* Bloom color overrides; no data-bloom means the template's own glow. */
+  html[data-bloom="green"]  { --glow:rgb(61 205 88 / var(--glow-a, .30)); --glow-edge:rgba(61,205,88,0); }
+  html[data-bloom="blue"]   { --glow:rgb(91 157 255 / var(--glow-a, .30)); --glow-edge:rgba(91,157,255,0); }
+  html[data-bloom="amber"]  { --glow:rgb(240 167 48 / var(--glow-a, .30)); --glow-edge:rgba(240,167,48,0); }
+  html[data-bloom="violet"] { --glow:rgb(199 125 255 / var(--glow-a, .30)); --glow-edge:rgba(199,125,255,0); }
+  html[data-bloom="teal"]   { --glow:rgb(45 212 191 / var(--glow-a, .30)); --glow-edge:rgba(45,212,191,0); }
+  html[data-bloom="coral"]  { --glow:rgb(255 107 74 / var(--glow-a, .30)); --glow-edge:rgba(255,107,74,0); }
+  html[data-bloom="lime"]   { --glow:rgb(181 211 52 / var(--glow-a, .30)); --glow-edge:rgba(181,211,52,0); }
+  html[data-bloom="pink"]   { --glow:rgb(255 122 198 / var(--glow-a, .30)); --glow-edge:rgba(255,122,198,0); }
+  html[data-bloom="rust"]   { --glow:rgb(194 82 31 / var(--glow-a, .30)); --glow-edge:rgba(194,82,31,0); }
+  html[data-bloom="indigo"] { --glow:rgb(79 70 229 / var(--glow-a, .30)); --glow-edge:rgba(79,70,229,0); }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-snap-type: y proximity; overscroll-behavior-x: none; }
+  body { background: var(--page); font-family: 'Schibsted Grotesk', system-ui, sans-serif;
+         color: var(--ink); -webkit-font-smoothing: antialiased; }
+
+  /* bloom (from the work hub) */
+  .bloom { position: fixed; left: 0; top: 0; width: 900px; height: 900px;
+    margin: -450px 0 0 -450px;
+    background: radial-gradient(circle, var(--glow), var(--glow-edge) 74%);
+    pointer-events: none; z-index: 0; opacity: 0; will-change: transform, opacity; }
+  .bloom.is-ready {
+    transition: transform 1050ms cubic-bezier(.22,.61,.36,1),
+                opacity   1050ms cubic-bezier(.22,.61,.36,1); }
+  @media (prefers-reduced-motion: reduce) { .bloom.is-ready { transition: none; } }
+
+  /* Panels: each is a 1920×1080 slide canvas scaled to fit the window.
+     Inside a panel, sizes are written in template pixels × --u. */
+  .deck { position: relative; z-index: 1;
+    --slide-gap: calc((100vh - min(100vw - 48px, (100vh - 48px) * 16 / 9) * 9 / 16) / 2);
+    padding: max(24px, var(--slide-gap)) 0 max(0px, var(--slide-gap) - 24px); }
+  .panel { position: relative; container-type: inline-size; overflow: hidden;
+    width: min(100vw - 48px, (100vh - 48px) * 16 / 9); aspect-ratio: 16 / 9;
+    margin: 0 auto 24px; scroll-snap-align: center;
+    background: color-mix(in srgb, var(--canvas) 55%, transparent);
+    border: 1px solid var(--hairline-soft); border-radius: var(--r); }
+  .panel > * { --u: calc(100cqw / 1920); }
+
+  .abs { position: absolute; left: calc(var(--x) * var(--u)); width: calc(var(--w) * var(--u)); }
+  .abs[style*="--y"] { top: calc(var(--y) * var(--u)); }
+  .vc { top: 50%; transform: translateY(-50%); }
+  .row { display: flex; gap: calc(var(--gap, 64) * var(--u)); }
+  .row > * { flex: 1 1 0; min-width: 0; }
+  .stack { display: flex; flex-direction: column; gap: calc(var(--gap, 16) * var(--u)); }
+  .blk.stack { --gap: 12; }
+  .center { text-align: center; align-items: center; }
+
+  /* Type: the template's eight styles, at template pixel sizes */
+  .t-title { font-size: calc(96 * var(--u)); line-height: 1.2;  font-weight: 600; letter-spacing: -.02em; }
+  .t-h1    { font-size: calc(60 * var(--u)); line-height: 1.2;  font-weight: 600; letter-spacing: -.02em; }
+  .t-h2    { font-size: calc(48 * var(--u)); line-height: 1.2;  font-weight: 600; letter-spacing: -.02em; }
+  .t-h3    { font-size: calc(36 * var(--u)); line-height: 1.32; font-weight: 600; letter-spacing: -.02em; }
+  .t-b1    { font-size: calc(36 * var(--u)); line-height: 1.4;  font-weight: 400; letter-spacing: -.01em; color: var(--ink-body); }
+  .t-b2    { font-size: calc(30 * var(--u)); line-height: 1.36; font-weight: 400; letter-spacing: -.01em; color: var(--ink-body); }
+  .t-b3    { font-size: calc(24 * var(--u)); line-height: 1.34; font-weight: 400; letter-spacing: -.005em; color: var(--ink-body); }
+  .t-meta  { color: var(--muted); }
+
+  /* Hover highlight (from the work hub). Padding/margin cancel so the
+     highlight never shifts the layout. */
+  .blk { padding: calc(20 * var(--u)); margin: calc(-20 * var(--u)); border-radius: var(--r);
+    transition: background-color .15s; }
+  .blk:hover { background: var(--fill-hover); }
+  .blk.is-active { background: var(--accent-wash); box-shadow: inset 2px 0 0 var(--accent); }
+
+  /* Glass surfaces; the dev menu tunes these four values. */
+  :root { --glass-tint: 1; --glass-blur: 16; --glass-sat: 180; --glass-edge: 22; --glass-light: 10;
+    --glass-sheen: linear-gradient(135deg, color-mix(in srgb, var(--ink) calc(var(--glass-light) * 1%), transparent) 0%,
+      transparent 42%, transparent 78%, color-mix(in srgb, var(--ink) calc(var(--glass-light) * .35%), transparent) 100%);
+    --glass-rim: inset 1px 1px 0 color-mix(in srgb, var(--ink) calc(var(--glass-edge) * 1.6%), transparent),
+      inset -1px -1px 0 color-mix(in srgb, var(--ink) calc(var(--glass-edge) * .4%), transparent); }
+  .card, .emap__row:not(.emap__head) {
+    background: var(--glass-sheen), color-mix(in srgb, var(--ink) calc(var(--glass-tint) * 1%), transparent);
+    border: 1px solid color-mix(in srgb, var(--ink) calc(var(--glass-edge) * 1%), transparent);
+    box-shadow: var(--glass-rim), 0 calc(24 * var(--u)) calc(60 * var(--u)) rgba(0,0,0,.25);
+    backdrop-filter: blur(calc(var(--glass-blur) * 1px)) saturate(calc(var(--glass-sat) * 1%));
+    -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 1px)) saturate(calc(var(--glass-sat) * 1%)); }
+  .card { border-radius: calc(24 * var(--u)); display: flex; flex-direction: column; gap: calc(16 * var(--u));
+    padding: calc(40 * var(--u)); }
+  .card.blk { margin: 0; }
+  .card > .t-h3 { font-size: calc(24 * var(--u)); font-weight: 500; letter-spacing: -.005em; }
+  .card.blk:hover, .emap__row.blk:hover { background: var(--glass-sheen), color-mix(in srgb, var(--ink) calc(var(--glass-tint) * 1% + 4%), transparent); }
+
+  .avatar { width: calc(132 * var(--u)); height: calc(132 * var(--u)); border-radius: 50%; flex: none;
+    border: calc(4 * var(--u)) solid var(--accent);
+    background: color-mix(in srgb, var(--ink) 80%, var(--canvas)); }
+
+  .arrow { position: absolute; left: calc(168 * var(--u)); top: calc(97 * var(--u));
+    width: calc(100 * var(--u)); height: calc(24 * var(--u)); color: var(--accent); }
+
+  /* Brand: Schneider green stays the brand color on every template */
+  .brand-tag { position: absolute; top: 0; right: calc(52 * var(--u));
+    height: calc(61 * var(--u)); padding-right: calc(39 * var(--u));
+    background: #0fb542; color: #151a1c; border-radius: 0 0 calc(20 * var(--u)) calc(20 * var(--u));
+    display: flex; align-items: center; gap: calc(18 * var(--u)); padding-left: calc(39 * var(--u));
+    font-size: calc(24 * var(--u)); font-weight: 600; letter-spacing: -.02em; }
+  .brand-tag .logo, .brand-foot .logo { width: calc(102 * var(--u)); height: calc(30 * var(--u)); flex: none; }
+  .brand-tag .sep, .brand-foot .sep { width: 1px; height: calc(24 * var(--u)); background: currentColor; opacity: .6; }
+  .brand-foot { position: absolute; right: calc(52 * var(--u)); bottom: calc(31 * var(--u));
+    display: flex; align-items: center; gap: calc(21 * var(--u));
+    font-size: calc(24 * var(--u)); letter-spacing: -.02em; color: var(--dim); }
+  .brand-foot .logo { color: #0fb542; }
+  .brand-foot { display: none; }
+  .pageno { position: absolute; left: calc(52 * var(--u)); bottom: calc(36 * var(--u)); font-size: calc(18 * var(--u)); color: var(--dim); opacity: .6; font-variant-numeric: tabular-nums; }
+
+  /* Slide pop (SLIDE_POP in the script); delete this block with the flag to walk it back. */
+  @media (prefers-reduced-motion: no-preference) {
+    html.slide-pop .panel { transition: opacity 250ms cubic-bezier(0.4, 0, 0.7, 0.2); }
+    html.slide-pop .panel:not(.is-shown) { opacity: 0.3; }
+    html.slide-pop .panel:not(.is-shown) > * { opacity: 0; }
+    /* --pop-wait lets the scroll land first; --pop-time is each pop's length. */
+    html.slide-pop { --pop-wait: 300ms; --pop-time: 150ms; }
+    html.slide-pop .panel.is-entering { animation: slide-pop-card var(--pop-time) cubic-bezier(0.34, 1.28, 0.64, 1) var(--pop-wait) both; }
+    html.slide-pop .panel.is-entering > * { animation: slide-pop-content var(--pop-time) cubic-bezier(0.34, 1.28, 0.64, 1) calc(var(--pop-wait) + 110ms) both; }
+  }
+  @keyframes slide-pop-card { from { opacity: 0.3; scale: 0.96; } }
+  @keyframes slide-pop-content { from { opacity: 0; translate: 0 8px; scale: 0.98; } }
+
+  /* Dev menu (local copies only): placement and theme from the deck's tokens. */
+  .devmenu { position: fixed; top: 12px; left: 12px; z-index: 50;
+    --devmenu-bg: var(--panel); --devmenu-head-bg: var(--canvas); --devmenu-fg: var(--ink);
+    --devmenu-muted: var(--dim); --devmenu-border: var(--hairline); --devmenu-hover: var(--fill-hover);
+    --devmenu-accent: var(--accent); --devmenu-width: 320px; }
+  /* Glass previews, toggled from the dev menu. */
+  html.glass-panels .panel { background: var(--glass-sheen), color-mix(in srgb, var(--ink) calc(var(--glass-tint) * 1%), transparent);
+    border-color: color-mix(in srgb, var(--ink) calc(var(--glass-edge) * 1%), transparent);
+    backdrop-filter: blur(calc(var(--glass-blur) * 1px)) saturate(calc(var(--glass-sat) * 1%));
+    -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 1px)) saturate(calc(var(--glass-sat) * 1%)); }
+  html.glass-tracks .tl__bar { background: var(--glass-sheen), color-mix(in srgb, var(--ink) calc(var(--glass-tint) * 1% + 6%), transparent);
+    box-shadow: var(--glass-rim);
+    backdrop-filter: blur(calc(var(--glass-blur) * 1px)) saturate(calc(var(--glass-sat) * 1%));
+    -webkit-backdrop-filter: blur(calc(var(--glass-blur) * 1px)) saturate(calc(var(--glass-sat) * 1%)); }
+
+  /* Presentation type, starting from the deck scale and breaking from it where a slide needs impact. */
+  .t-display { font-size: calc(84 * var(--u)); line-height: 1.08; font-weight: 600; letter-spacing: -.03em; }
+  .kicker { font-size: calc(24 * var(--u)); line-height: 1.3; color: var(--accent-soft); font-weight: 500; }
+  .ph { color: var(--accent-soft); font-style: italic; }
+  .tl__axis { display: flex; justify-content: space-between; margin-left: calc(216 * var(--u)); }
+
+  /* Proof timelines and evidence-map rows (deck-local, not a shared component). */
+  .tl { display: flex; flex-direction: column; gap: calc(8 * var(--u)); margin-top: calc(16 * var(--u)); }
+  .tl__row { display: grid; grid-template-columns: calc(200 * var(--u)) 1fr; gap: calc(16 * var(--u)); align-items: center; }
+  .tl__bar { height: calc(10 * var(--u)); border-radius: calc(5 * var(--u)); background: var(--fill-hover); position: relative; overflow: hidden; }
+  .tl__fill { position: absolute; inset: 0 auto 0 0; background: var(--accent); border-radius: inherit; }
+  .tl__late .tl__fill { left: 55%; right: 0; width: auto; opacity: .45; }
+  .tl__early .tl__fill { left: 12%; width: 38%; }
+  .emap { display: flex; flex-direction: column; gap: calc(16 * var(--u)); }
+  .emap__row, .emap__row.blk { display: grid; grid-template-columns: 1.1fr 1.6fr calc(160 * var(--u)); gap: calc(24 * var(--u));
+    align-items: baseline; margin: 0; padding: calc(28 * var(--u)) calc(32 * var(--u));
+    border-radius: calc(16 * var(--u)); }
+  .emap__head { color: var(--muted); padding-bottom: calc(4 * var(--u)); }
+  .emap__status { font-weight: 600; }
+  .emap__status.is-strong { color: var(--accent-soft); }
+  .emap__status.is-thin { color: var(--muted); }
+  .emap__status.is-missing { color: var(--dim); }
+</style>
+</head>
+<body>
+
+<div class="devmenu" id="dev-controls" data-local-only data-place="down-right">
+  <button type="button" class="devmenu__btn" id="dev-controls-btn" aria-haspopup="true" aria-expanded="false" aria-controls="dev-controls-panel" title="Dev controls">
+    <svg class="devmenu__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6M10 3v6.5L4.6 18.4A1.7 1.7 0 0 0 6 21h12a1.7 1.7 0 0 0 1.4-2.6L14 9.5V3"/><path d="M7.5 15h9"/></svg>
+  </button>
+  <div class="devmenu__panel" id="dev-controls-panel" role="dialog" aria-label="Dev controls" hidden>
+    <div class="devmenu__head">
+      <span class="devmenu__title">
+        <svg class="devmenu__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 3h6M10 3v6.5L4.6 18.4A1.7 1.7 0 0 0 6 21h12a1.7 1.7 0 0 0 1.4-2.6L14 9.5V3"/><path d="M7.5 15h9"/></svg>
+        Dev controls
+      </span>
+      <button type="button" class="devmenu__close" id="dev-controls-close" aria-label="Close dev controls">
+        <svg class="devmenu__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="devmenu__body" id="dev-controls-body">
+      <!-- Rows go here, e.g.:
+      <div class="devmenu__section">Section</div>
+      <label class="devmenu__row"><span class="devmenu__label">Some toggle</span><input type="checkbox" class="devmenu__switch"></label>
+      -->
+    </div>
+  </div>
+</div>
+
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="se-logo" viewBox="0 0 103 31"><path fill="currentColor" d="M11.7 4.50581C9.57273 3.44562 7.88864 2.91552 6.64773 2.91552C5.05227 2.91552 4.25455 3.44562 4.25455 4.50581C4.25455 5.03591 5.58409 5.83105 8.24318 6.89125C11.0795 7.95144 12.4977 9.54173 12.4977 11.6621C12.4977 15.0194 10.4591 16.698 6.38182 16.698C4.43182 16.698 2.48182 16.1679 0.531818 15.1078V11.6621C2.48182 12.899 4.25455 13.5175 5.85 13.5175C7.44545 13.5175 8.24318 13.0757 8.24318 12.1922C8.24318 11.4854 6.825 10.6019 3.98864 9.54173C1.32955 8.48154 0 6.89125 0 4.77086C0 1.59028 2.12727 -1.52588e-05 6.38182 -1.52588e-05C7.97727 -1.52588e-05 9.75 0.441732 11.7 1.32523V4.50581ZM23.4 15.9029C21.9818 16.433 20.7409 16.698 19.6773 16.698C17.7273 16.698 16.1318 16.1679 14.8909 15.1078C13.8273 14.0476 13.2955 12.634 13.2955 10.867C13.2955 9.27668 13.8273 7.95144 14.8909 6.89125C16.1318 5.83105 17.6386 5.30096 19.4114 5.30096C20.6523 5.30096 21.8932 5.566 23.1341 6.0961V8.48154C22.2477 7.95144 21.2727 7.68639 20.2091 7.68639C18.0818 7.68639 17.0182 8.74659 17.0182 10.867C17.0182 12.9874 18.0818 14.0476 20.2091 14.0476C20.9182 14.0476 21.9818 13.7825 23.4 13.2524V15.9029ZM51.0545 6.89125C52.2955 5.83105 53.7136 5.30096 55.3091 5.30096C56.9045 5.30096 58.2341 5.9194 59.2977 7.1563C60.5386 8.21649 61.0705 9.63008 60.8932 11.3971H53.1818C53.1818 13.5175 54.3341 14.5777 56.6386 14.5777C57.8795 14.5777 59.2977 14.0476 60.8932 12.9874V15.1078C59.475 16.1679 57.7909 16.698 55.8409 16.698C53.8909 16.698 52.2955 16.1679 51.0545 15.1078C49.9909 14.0476 49.4591 12.7223 49.4591 11.132C49.4591 9.36503 49.9909 7.95144 51.0545 6.89125ZM53.1818 9.80678H57.9682C57.7909 8.21649 56.9932 7.42134 55.575 7.42134C54.1568 7.42134 53.3591 8.21649 53.1818 9.80678ZM62.2227 16.433V5.566H65.6796V16.433H62.2227ZM75.2523 0.265033H78.7091V16.433H75.2523V15.3728C74.3659 16.2563 73.3023 16.698 72.0614 16.698C70.6432 16.698 69.4023 16.1679 68.3386 15.1078C67.4523 13.8709 67.0091 12.4573 67.0091 10.867C67.0091 9.27668 67.4523 7.95144 68.3386 6.89125C69.4023 5.83105 70.7318 5.30096 72.3273 5.30096C73.3909 5.30096 74.3659 5.566 75.2523 6.0961V0.265033ZM75.2523 13.5175V8.21649C74.7205 7.86309 74.1 7.68639 73.3909 7.68639C71.4409 7.68639 70.4659 8.74659 70.4659 10.867C70.4659 13.1641 71.3523 14.3126 73.125 14.3126C73.8341 14.3126 74.5432 14.0476 75.2523 13.5175ZM81.6341 6.89125C82.6977 5.83105 84.0273 5.30096 85.6227 5.30096C87.3955 5.30096 88.8136 5.9194 89.8773 7.1563C91.1182 8.21649 91.65 9.63008 91.4727 11.3971H83.7614C83.7614 13.5175 84.9136 14.5777 87.2182 14.5777C88.4591 14.5777 89.7886 14.0476 91.2068 12.9874V15.1078C89.9659 16.1679 88.3705 16.698 86.4205 16.698C84.4705 16.698 82.875 16.1679 81.6341 15.1078C80.5705 14.0476 80.0386 12.7223 80.0386 11.132C80.0386 9.36503 80.5705 7.95144 81.6341 6.89125ZM83.7614 9.80678H88.5477C88.3705 8.21649 87.5727 7.42134 86.1545 7.42134C84.7364 7.42134 83.9386 8.21649 83.7614 9.80678ZM96.525 8.48154H96.7909C97.6773 6.36115 98.8296 5.30096 100.248 5.30096C100.78 5.30096 101.489 5.65435 102.375 6.36115L101.577 9.27668C100.691 8.74659 99.9818 8.48154 99.45 8.48154C98.3864 8.48154 97.4114 9.54173 96.525 11.6621V16.433H93.3341V5.566H96.525V8.48154ZM65.9455 0.79513C66.3 1.85532 65.8568 2.73882 64.6159 3.44562C63.375 4.15241 62.4886 4.06406 61.9568 3.18057C61.6023 2.12037 62.0455 1.23688 63.2864 0.530082C64.5273 -0.176714 65.4136 -0.0883648 65.9455 0.79513ZM35.6318 9.54173C35.6318 6.71455 34.3023 5.30096 31.6432 5.30096C30.225 5.30096 29.0727 5.9194 28.1864 7.1563V0.265033H24.7295V16.433H28.1864V9.54173C28.8955 8.30484 29.6045 7.68639 30.3136 7.68639C31.5545 7.68639 32.175 8.48154 32.175 10.0718V14.0476C33.4159 13.3408 34.5682 12.9874 35.6318 12.9874V9.54173ZM44.1409 5.30096C42.9 5.30096 41.7477 5.9194 40.6841 7.1563V5.566H37.2273V12.9874C38.8227 12.9874 39.975 13.5175 40.6841 14.5777V9.27668C41.5705 8.21649 42.3682 7.68639 43.0773 7.68639C44.1409 7.68639 44.6727 8.39319 44.6727 9.80678V16.433H48.1295V9.54173C48.1295 6.71455 46.8 5.30096 44.1409 5.30096ZM49.9909 19.3485H46.0023V22.2641H49.9909V23.5893H46.0023V26.5048H50.2568V27.565H44.6727V18.2883H49.9909V19.3485ZM53.4477 27.565V18.2883H54.5114V27.565H53.4477ZM59.0318 24.6495C59.2091 25.8864 59.8295 26.5048 60.8932 26.5048C61.6023 26.5048 62.4 26.2398 63.2864 25.7097V27.0349C62.4 27.565 61.5136 27.8301 60.6273 27.8301C58.6773 27.8301 57.7023 26.6815 57.7023 24.3845C57.7023 22.4408 58.6773 21.4689 60.6273 21.4689C62.4 21.4689 63.2864 22.5291 63.2864 24.6495H59.0318ZM61.9568 23.8544C61.9568 22.7942 61.5136 22.2641 60.6273 22.2641C59.7409 22.2641 59.2091 22.7942 59.0318 23.8544H61.9568ZM71.2636 23.0592C70.5546 22.7058 70.0227 22.5291 69.6682 22.5291C68.25 22.5291 67.5409 23.2359 67.5409 24.6495C67.5409 25.8864 68.25 26.5048 69.6682 26.5048C70.2 26.5048 70.8205 26.4165 71.5295 26.2398V27.3C70.9977 27.6534 70.3773 27.8301 69.6682 27.8301C67.5409 27.8301 66.4773 26.7699 66.4773 24.6495C66.4773 22.3524 67.4523 21.2039 69.4023 21.2039C69.9341 21.2039 70.5546 21.3806 71.2636 21.734V23.0592ZM76.8477 21.4689H78.7091V22.5291H76.8477V25.7097C76.8477 26.4165 77.1136 26.7699 77.6455 26.7699C78.1773 26.7699 78.6205 26.5932 78.975 26.2398V27.3C78.6205 27.6534 78.1773 27.8301 77.6455 27.8301C76.2273 27.8301 75.5182 27.1233 75.5182 25.7097V22.5291H74.4546L76.8477 20.1437V21.4689ZM83.4955 21.4689V22.7942C84.0273 21.9107 84.6477 21.4689 85.3568 21.4689C85.7114 21.4689 86.1545 21.6456 86.6864 21.999L86.1545 23.0592C85.6227 22.7058 85.1796 22.5291 84.825 22.5291C83.9386 22.5291 83.4955 23.1476 83.4955 24.3845V27.565H82.1659V21.4689H83.4955ZM99.1841 23.0592C98.6523 22.7058 98.1205 22.5291 97.5886 22.5291C96.3477 22.5291 95.7273 23.2359 95.7273 24.6495C95.7273 25.8864 96.3477 26.5048 97.5886 26.5048C98.1205 26.5048 98.7409 26.4165 99.45 26.2398V27.3C98.9182 27.6534 98.2977 27.8301 97.5886 27.8301C95.4614 27.8301 94.3977 26.7699 94.3977 24.6495C94.3977 22.3524 95.3727 21.2039 97.3227 21.2039C97.8545 21.2039 98.475 21.3806 99.1841 21.734V23.0592ZM89.8773 27.565V21.4689H91.2068V27.565H89.8773ZM91.2068 19.3485C91.3841 19.7019 91.2068 20.0553 90.675 20.4087C90.3205 20.5854 90.0545 20.4971 89.8773 20.1437C89.7 19.6136 89.7886 19.2602 90.1432 19.0835C90.675 18.9068 91.0295 18.9951 91.2068 19.3485ZM37.2273 22.2641H40.6841C40.5068 22.6175 40.3295 23.0592 40.1523 23.5893H36.9614L36.6955 24.9145H39.0886C38.7341 25.6213 38.2023 26.2398 37.4932 26.7699C35.7205 28.5369 33.6818 29.6854 31.3773 30.2155C29.25 30.5689 27.6545 30.1272 26.5909 28.8903C25.35 27.6534 24.9955 25.8864 25.5273 23.5893H28.1864L28.7182 22.2641H25.7932C25.9705 22.0874 26.2364 21.734 26.5909 21.2039H28.9841L29.25 19.8786H27.3886C27.9205 19.1718 28.4523 18.5534 28.9841 18.0233C30.7568 16.2563 32.7068 15.1961 34.8341 14.8427C37.1386 14.4893 38.8227 14.9311 39.8864 16.1679C41.1273 17.2281 41.5705 18.8184 41.2159 20.9388H37.7591L37.2273 22.2641ZM36.6955 19.6136H38.5568L39.0886 17.7582H35.6318C33.3273 17.7582 31.9977 18.8184 31.6432 20.9388L30.5795 24.3845C30.5795 24.5611 30.5795 24.6495 30.5795 24.6495C30.4023 24.8262 30.225 24.9145 30.0477 24.9145H27.9205L27.3886 27.0349H30.5795C33.2386 27.0349 34.7455 26.0631 35.1 24.1194L36.1636 20.1437C36.1636 19.967 36.1636 19.8786 36.1636 19.8786C36.3409 19.7019 36.5182 19.6136 36.6955 19.6136Z"/></symbol>
+</svg>
+
+<div class="bloom" id="bloom"></div>
+
+<main class="deck" id="deck">
+
+  <!-- 1. Title -->
+  <section class="panel" id="title" data-rest="0.3,0.5">
+    <div class="abs vc stack" style="--x:128;--w:1400;--gap:28">
+      <p class="kicker">Nov 26 positioning</p>
+      <h1 class="t-title">How I can better help the team as a Principal Designer</h1>
+    </div>
+    <div class="brand-tag"><svg class="logo"><use href="#se-logo"/></svg></div>
+  </section>
+
+  <!-- 2. The short version -->
+  <section class="panel" data-rest="0.2,0.5">
+    <h2 class="abs vc t-h1" style="--x:128;--w:560">The short version</h2>
+    <div class="abs vc stack" style="--x:820;--w:960;--gap:56">
+      <div class="blk stack"><h3 class="t-h3">Where we are</h3><p class="t-b2">Our products now span many teams, clients and services, and the biggest decisions are made before design is in the room.</p></div>
+      <div class="blk stack"><h3 class="t-h3">What I bring</h3><p class="t-b2">Systems thinking across teams, information architecture, service design and research. <span class="ph">[credentials]</span></p></div>
+      <div class="blk stack"><h3 class="t-h3">Where I’d like to go</h3><p class="t-b2">Bring design in earlier across our data products, as Principal Designer.</p></div>
+    </div>
+    <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
+  </section>
+
+  <!-- 3. A new world -->
+  <section class="panel" data-rest="0.5,0.4">
+    <div class="abs stack" style="--x:128;--y:120;--w:1500;--gap:20">
+      <p class="kicker">Where we are</p>
+      <h2 class="t-display">A new world of interconnected software and people, products and services.</h2>
+    </div>
+    <div class="abs row" style="--x:128;--y:620;--w:1664;--gap:72">
+      <div class="blk stack"><h3 class="t-h3">Software and people</h3><p class="t-b3">Our tools sit inside clients’ and suppliers’ daily work, not beside it.</p></div>
+      <div class="blk stack"><h3 class="t-h3">Products and services</h3><p class="t-b3">Onboarding, configuration and support are part of what clients buy.</p></div>
+      <div class="blk stack"><h3 class="t-h3">Many teams, one journey</h3><p class="t-b3">The same data passes through several products before anyone sees a result.</p></div>
+    </div>
+    <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
+  </section>
+
+  <!-- 4. What this means -->
+  <section class="panel" data-rest="0.5,0.55">
+    <h2 class="abs t-h1" style="--x:128;--y:128;--w:1584">What this means, and how design ties in</h2>
+    <div class="abs row" style="--x:128;--y:300;--w:1664">
+      <div class="card blk"><h3 class="t-h3">Problems span teams</h3><p class="t-h2">Design maps the whole system, so no team solves its piece alone.</p></div>
+      <div class="card blk"><h3 class="t-h3">Structure outlasts features</h3><p class="t-h2">Design sets the foundations early, before features pile on top.</p></div>
+      <div class="card blk"><h3 class="t-h3">Client asks keep coming</h3><p class="t-h2">Design turns one-off requests into things we can configure.</p></div>
+    </div>
+    <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
+  </section>
+
+  <!-- 5. Early successes -->
+  <section class="panel" data-rest="0.5,0.55">
+    <div class="abs stack" style="--x:128;--y:112;--w:1584;--gap:16">
+      <p class="kicker">When design joins early</p>
+      <h2 class="t-h1">Early successes</h2>
+    </div>
+    <div class="abs row" style="--x:128;--y:330;--w:1664">
+      <div class="card blk"><h3 class="t-h3">Wyndham</h3><p class="t-h2">Found the real need in triage: individual uploads.</p><p class="t-b3">Joined early with Rusty, Lauren and Katie; the customizable homepage quickly became popular with the client.</p></div>
+      <div class="card blk"><h3 class="t-h3">Homepage and configuration</h3><p class="t-h2">Client asks configured, not custom built.</p><p class="t-b3">The configurator and entity schema came straight out of that insight.</p></div>
+      <div class="card blk"><h3 class="t-h3">Supply Chain</h3><p class="t-h2">A product-wide structure Product backed.</p><p class="t-b3">Education, Take Action, custom data upload and source-per-cell tables shipped along the way.</p></div>
+    </div>
+    <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
+  </section>
+
+  <!-- 6. Continuing work -->
+  <section class="panel" data-rest="0.5,0.45">
+    <div class="abs stack" style="--x:128;--y:128;--w:1584;--gap:16">
+      <p class="kicker">In progress</p>
+      <h2 class="t-h1">Continuing work</h2>
+    </div>
+    <div class="abs row" style="--x:128;--y:420;--w:1664">
+      <div class="blk stack"><h3 class="t-h3">Carbon Performance EAC</h3><p class="t-b3">From version 1 with the whole product team to a research-led version 2.</p></div>
+      <div class="blk stack"><h3 class="t-h3">Upload and ingestion</h3><p class="t-b3">One upload and data management model across teams, with an ingestion and review flow alongside Alexis.</p></div>
+      <div class="blk stack"><h3 class="t-h3">Inventory review</h3><p class="t-b3">Early with Product on ways to review massive data sets.</p></div>
+      <div class="blk stack"><h3 class="t-h3">Sera</h3><p class="t-b3">Context panel and behavior across the platform, well beyond a chatbot, with Lauren.</p></div>
+    </div>
+    <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
+  </section>
+
+  <!-- 7. Strategic investment -->
+  <section class="panel" data-rest="0.5,0.45">
+    <div class="abs stack" style="--x:128;--y:128;--w:1584;--gap:16">
+      <p class="kicker">Strategic investment</p>
+      <h2 class="t-h1">Investing in what comes next</h2>
+    </div>
+    <div class="abs row" style="--x:128;--y:420;--w:1664">
+      <div class="blk stack"><h3 class="t-h3">APM education</h3><p class="t-b3">Teaching Shelly and Maddie research practice.</p></div>
+      <div class="blk stack"><h3 class="t-h3">Research advocacy</h3><p class="t-b3">Research education and better discovery practice, with Nikki.</p></div>
+      <div class="blk stack"><h3 class="t-h3">Service design</h3><p class="t-b3">Foresight into how our products and services fit together.</p></div>
+      <div class="blk stack"><h3 class="t-h3">Information architecture</h3><p class="t-b3">Navigation and wayfinding across the platform.</p></div>
+    </div>
+    <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
+  </section>
+
+  <!-- 8. Raising how the team works -->
+  <section class="panel" data-rest="0.2,0.5">
+    <h2 class="abs vc t-h1" style="--x:128;--w:480">Raising how the team works</h2>
+    <div class="abs vc stack" style="--x:712;--w:1080;--gap:80">
+      <div class="row" style="--gap:96">
+        <div class="blk stack"><h3 class="t-h3">Better discovery</h3><p class="t-b3">Key author of the recommendation on using JPD Insights for discovery; advocated it with JP, Nikki and the design team.</p></div>
+        <div class="blk stack"><h3 class="t-h3">Growing APMs</h3><p class="t-b3">Teaching Shelly and Maddie research practice, planting seeds for long-term team habits.</p></div>
+      </div>
+      <div class="row" style="--gap:96">
+        <div class="blk stack"><h3 class="t-h3">Research synthesis</h3><p class="t-b3">Actively pushing better synthesis practice across Carbon Performance and Supply Chain.</p></div>
+        <div class="blk stack"><h3 class="t-h3">What’s next</h3><p class="t-b3">Run the service-blueprint session as a workshop for product teams, and set up a recurring discovery practice.</p></div>
+      </div>
+    </div>
+    <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
+  </section>
+
+  <!-- 9. Where we are -->
+  <section class="panel" data-rest="0.5,0.5">
+    <h2 class="abs t-h1" style="--x:128;--y:96;--w:1584">What upstream design looks like, and where we are</h2>
+    <div class="abs emap" style="--x:128;--y:236;--w:1664">
+      <div class="emap__row emap__head"><span class="t-b3">What upstream design does</span><span class="t-b3">Where it’s happening</span><span class="t-b3">Today</span></div>
+      <div class="emap__row blk"><span class="t-b2" style="color:var(--ink)">Works across teams</span><span class="t-b3">Upload model; Supply Chain end to end.</span><span class="t-b2 emap__status is-strong">Established</span></div>
+      <div class="emap__row blk"><span class="t-b2" style="color:var(--ink)">Finds problems early</span><span class="t-b3">Wyndham; platform information architecture.</span><span class="t-b2 emap__status is-strong">Established</span></div>
+      <div class="emap__row blk"><span class="t-b2" style="color:var(--ink)">Shapes strategy</span><span class="t-b3">Homepage configurator; IDMI and workflow.</span><span class="t-b2 emap__status is-thin">Emerging</span></div>
+      <div class="emap__row blk"><span class="t-b2" style="color:var(--ink)">Co-leads with product and engineering</span><span class="t-b3">The next step.</span><span class="t-b2 emap__status is-missing">Next</span></div>
+    </div>
+    <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
+  </section>
+
+  <!-- 10. Why I can help -->
+  <section class="panel" data-rest="0.2,0.5">
+    <h2 class="abs vc t-h1" style="--x:128;--w:620">Why I can help</h2>
+    <div class="abs vc stack" style="--x:900;--w:880;--gap:48">
+      <div class="blk stack"><h3 class="t-h3">At TransPerfect</h3><p class="t-b2"><span class="ph">[TransPerfect experience: role, scope, and what carries over]</span></p></div>
+      <div class="blk stack"><h3 class="t-h3">Here</h3><p class="t-b2">Complex, multi-team data products made understandable, from Wyndham to Supply Chain.</p></div>
+      <div class="blk stack"><h3 class="t-h3">Next</h3><p class="t-b2">The data experience end to end, platform information architecture, and how design enters decisions.</p></div>
+    </div>
+    <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
+  </section>
+
+  <!-- 11. Early targets and goals -->
+  <section class="panel" data-rest="0.5,0.5">
+    <h2 class="abs t-h1" style="--x:128;--y:112;--w:1584">Early targets and goals</h2>
+    <div class="abs row" style="--x:128;--y:260;--w:1664">
+      <div class="card blk"><h3 class="t-h3">First 90 days</h3><p class="t-h2"><span class="ph">[target]</span></p></div>
+      <div class="card blk"><h3 class="t-h3">By <span class="ph">[date]</span></h3><p class="t-h2"><span class="ph">[goal]</span></p></div>
+      <div class="card blk"><h3 class="t-h3">A clear role</h3><p class="t-h2">Principal Designer, so teams know where to bring problems early.</p></div>
+    </div>
+    <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
+  </section>
+
+  <!-- 12. Who can speak to the work -->
+  <section class="panel" data-rest="0.5,0.5">
+    <h2 class="abs t-h1" style="--x:128;--y:128;--w:1584">Who can speak to the work</h2>
+    <div class="abs row" style="--x:128;--y:420;--w:1664">
+      <div class="blk stack"><h3 class="t-h3">Lauren</h3><p class="t-b3">Homepage, Sera and Wyndham.</p></div>
+      <div class="blk stack"><h3 class="t-h3">Veronica and the Supply Chain product team</h3><p class="t-b3">Supply Chain, end to end.</p></div>
+      <div class="blk stack"><h3 class="t-h3">Shelly and Maddie</h3><p class="t-b3">Research coaching.</p></div>
+    </div>
+    <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
+  </section>
+
+  <!-- Template layouts below stay hidden; copy one above and remove `hidden` to use it. -->
+
+  <!-- Title (template slide 1) -->
+  <section class="panel" hidden data-rest="0.3,0.5">
+    <div class="abs vc stack" style="--x:128;--w:1200;--gap:24">
+      <h1 class="t-title">Title of presentation</h1>
+      <p class="t-b1">Subtitle of presentation</p>
+    </div>
+    <div class="brand-tag"><svg class="logo"><use href="#se-logo"/></svg></div>
+  </section>
+
+  <!-- Section opener (slide 3) -->
+  <section class="panel" hidden data-rest="0.3,0.5">
+    <h1 class="abs vc t-title" style="--x:128;--w:1200">Title of the section</h1>
+    <div class="brand-tag"><svg class="logo"><use href="#se-logo"/></svg></div>
+  </section>
+
+  <!-- Heading left, five items right (slide 4) -->
+  <section class="panel" hidden data-rest="0.2,0.5">
+    <svg class="arrow" viewBox="0 0 100 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h94M84 2l12 10-12 10"/></svg>
+    <h2 class="abs vc t-h2" style="--x:128;--w:560">Something here</h2>
+    <div class="abs vc stack" style="--x:968;--w:680;--gap:58">
+      <div class="blk stack"><h3 class="t-h3">Something here 1</h3><p class="t-b3">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p></div>
+      <div class="blk stack"><h3 class="t-h3">Something here 2</h3><p class="t-b3">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p></div>
+      <div class="blk stack"><h3 class="t-h3">Something here 3</h3><p class="t-b3">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p></div>
+      <div class="blk stack"><h3 class="t-h3">Something here 4</h3><p class="t-b3">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p></div>
+      <div class="blk stack"><h3 class="t-h3">Something here 5</h3><p class="t-b3">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p></div>
+    </div>
+    <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
+  </section>
+
+  <!-- Heading left, long quote right (slide 5) -->
+  <section class="panel" hidden data-rest="0.2,0.5">
+    <h2 class="abs vc t-h1" style="--x:128;--w:660">Something here</h2>
+    <p class="abs vc t-b1 blk" style="--x:968;--w:680">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."</p>
+    <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
+  </section>
+
+  <!-- Heading left, 2×2 points right (slide 6) -->
+  <section class="panel" hidden data-rest="0.2,0.5">
+    <h2 class="abs vc t-h2" style="--x:128;--w:480">Two columns</h2>
+    <div class="abs vc stack" style="--x:712;--w:1080;--gap:98">
+      <div class="row" style="--gap:104">
+        <div class="blk stack"><h3 class="t-h3">First thing</h3><p class="t-b3">Add a quick description of each thing, with enough context to understand what’s up.</p></div>
+        <div class="blk stack"><h3 class="t-h3">Second thing</h3><p class="t-b3">Keep ‘em short and sweet, so they’re easy to scan and remember.</p></div>
+      </div>
+      <div class="row" style="--gap:104">
+        <div class="blk stack"><h3 class="t-h3">Third thing</h3><p class="t-b3">Keep ‘em short and sweet, so they’re easy to scan and remember.</p></div>
+        <div class="blk stack"><h3 class="t-h3">Fourth thing</h3><p class="t-b3">If you’ve got a bunch, add another row, or use multiple copies of this slide.</p></div>
+      </div>
+    </div>
+    <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
+  </section>
+
+  <!-- Simple list, three (slide 7) -->
+  <section class="panel" hidden data-rest="0.5,0.45">
+    <h2 class="abs t-h2" style="--x:128;--y:128;--w:1584">Simple list</h2>
+    <div class="abs row" style="--x:128;--y:445;--w:1664">
+      <div class="blk stack"><h3 class="t-h3">First thing</h3><p class="t-b2">Add a quick description of each thing, with enough context to understand what’s up.</p></div>
+      <div class="blk stack"><h3 class="t-h3">Second thing</h3><p class="t-b2">Keep ‘em short and sweet, so they’re easy to scan and remember.</p></div>
+      <div class="blk stack"><h3 class="t-h3">Third thing</h3><p class="t-b2">If you’ve got a bunch, add another row, or use multiple copies of this slide.</p></div>
+    </div>
+    <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
+  </section>
+
+  <!-- Simple list, four (slide 8) -->
+  <section class="panel" hidden data-rest="0.5,0.45">
+    <h2 class="abs t-h2" style="--x:128;--y:128;--w:1584">Simple list</h2>
+    <div class="abs row" style="--x:128;--y:459;--w:1664">
+      <div class="blk stack"><h3 class="t-h3">First thing</h3><p class="t-b3">Add a quick description of each thing, with enough context to understand what’s up.</p></div>
+      <div class="blk stack"><h3 class="t-h3">Second thing</h3><p class="t-b3">Keep ‘em short and sweet, so they’re easy to scan and remember.</p></div>
+      <div class="blk stack"><h3 class="t-h3">Third thing</h3><p class="t-b3">If you’ve got a bunch, add another row, or use multiple copies of this slide.</p></div>
+      <div class="blk stack"><h3 class="t-h3">Fourth thing</h3><p class="t-b3">Keep ‘em short and sweet, so they’re easy to scan and remember.</p></div>
+    </div>
+    <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
+  </section>
+
+  <!-- Principles: three tall cards (slide 9) -->
+  <section class="panel" hidden data-rest="0.5,0.55">
+    <h2 class="abs t-h2" style="--x:128;--y:128;--w:1584">Principles</h2>
+    <div class="abs row" style="--x:128;--y:274;--w:1664">
+      <div class="card blk"><h3 class="t-h3">Principle 1</h3><p class="t-h2">This is what we believe.</p></div>
+      <div class="card blk"><h3 class="t-h3">Principle 2</h3><p class="t-h2">It’s how we make decisions.</p></div>
+      <div class="card blk"><h3 class="t-h3">Principle 3</h3><p class="t-h2">And what we aim to achieve.</p></div>
+    </div>
+    <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
+  </section>
+
+  <!-- Single quote with avatar (slide 35) -->
+  <section class="panel" hidden data-rest="0.5,0.5">
+    <div class="abs vc stack center blk" style="--x:524;--w:872">
+      <span class="avatar"></span>
+      <p class="t-b1">“This is a stellar quote from a user or customer that really stands out.”</p>
+      <p class="t-b3 t-meta">Full Name · Location</p>
+    </div>
+    <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
+  </section>
+
+  <!-- Three quotes with avatars (slide 36) -->
+  <section class="panel" hidden data-rest="0.5,0.5">
+    <div class="abs vc row" style="--x:128;--w:1664">
+      <div class="blk stack center"><span class="avatar"></span><p class="t-b2">“The best quotes relate to your deck’s overall narrative.”</p><p class="t-b3 t-meta">Full Name · Location</p></div>
+      <div class="blk stack center"><span class="avatar"></span><p class="t-b2">“The best quotes relate to your deck’s overall narrative.”</p><p class="t-b3 t-meta">Full Name · Location</p></div>
+      <div class="blk stack center"><span class="avatar"></span><p class="t-b2">“The best quotes relate to your deck’s overall narrative.”</p><p class="t-b3 t-meta">Full Name · Location</p></div>
+    </div>
+    <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
+  </section>
+
+  <!-- Four quotes with avatars (slide 37) -->
+  <section class="panel" hidden data-rest="0.5,0.5">
+    <div class="abs vc row" style="--x:128;--w:1664">
+      <div class="blk stack center"><span class="avatar"></span><p class="t-b3">“The best quotes relate to your deck’s overall narrative.”</p><p class="t-b3 t-meta">Full Name · Location</p></div>
+      <div class="blk stack center"><span class="avatar"></span><p class="t-b3">“The best quotes relate to your deck’s overall narrative.”</p><p class="t-b3 t-meta">Full Name · Location</p></div>
+      <div class="blk stack center"><span class="avatar"></span><p class="t-b3">“The best quotes relate to your deck’s overall narrative.”</p><p class="t-b3 t-meta">Full Name · Location</p></div>
+      <div class="blk stack center"><span class="avatar"></span><p class="t-b3">“The best quotes relate to your deck’s overall narrative.”</p><p class="t-b3 t-meta">Full Name · Location</p></div>
+    </div>
+    <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
+  </section>
+
+  <!-- Two quotes (slide 38) -->
+  <section class="panel" hidden data-rest="0.5,0.5">
+    <div class="abs vc row" style="--x:128;--w:1664;--gap:72">
+      <div class="blk stack"><p class="t-b1">“The best quotes relate to your deck’s overall narrative.”</p><p class="t-b3 t-meta">Full Name · Location</p></div>
+      <div class="blk stack"><p class="t-b1">“The best quotes relate to your deck’s overall narrative.”</p><p class="t-b3 t-meta">Full Name · Location</p></div>
+    </div>
+    <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
+  </section>
+
+  <!-- Three quotes (slide 39) -->
+  <section class="panel" hidden data-rest="0.5,0.5">
+    <div class="abs vc row" style="--x:128;--w:1664">
+      <div class="blk stack"><p class="t-b2">“The best quotes relate to your deck’s overall narrative.”</p><p class="t-b3 t-meta">Full Name · Location</p></div>
+      <div class="blk stack"><p class="t-b2">“The best quotes relate to your deck’s overall narrative.”</p><p class="t-b3 t-meta">Full Name · Location</p></div>
+      <div class="blk stack"><p class="t-b2">“The best quotes relate to your deck’s overall narrative.”</p><p class="t-b3 t-meta">Full Name · Location</p></div>
+    </div>
+    <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
+  </section>
+
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+function isLocal() {
+  if (location.protocol === 'file:') return true;
+  const h = location.hostname;
+  return h==='localhost'||h==='127.0.0.1'||h==='::1'||h===''
+    ||/\.local$/.test(h)||/^192\.168\./.test(h)||/^10\./.test(h)
+    ||/^172\.(1[6-9]|2\d|3[01])\./.test(h);
+}
+const TPL_KEY = 'nov26.template';
+let template = 'editorial';
+try { template = localStorage.getItem(TPL_KEY) || template; } catch(e) {}
+document.documentElement.dataset.template = template;
+const BLOOM_KEY = 'nov26.bloom';
+let bloomColor = '';
+try { bloomColor = localStorage.getItem(BLOOM_KEY) || ''; } catch(e) {}
+if (bloomColor) document.documentElement.dataset.bloom = bloomColor;
+const STRENGTH_KEY = 'nov26.bloomStrength';
+let bloomStrength = '';
+try { bloomStrength = localStorage.getItem(STRENGTH_KEY) || ''; } catch(e) {}
+if (bloomStrength) document.documentElement.style.setProperty('--glow-a', bloomStrength / 100);
+const GLASS_KEY = 'nov26.glass';
+const GLASS_DEFAULTS = { tint: 1, blur: 16, sat: 180, edge: 22, panels: false, tracks: false };
+let glass = { ...GLASS_DEFAULTS };
+try { Object.assign(glass, JSON.parse(localStorage.getItem(GLASS_KEY) || '{}')); } catch(e) {}
+function applyGlass() {
+  const r = document.documentElement;
+  ['tint', 'blur', 'sat', 'edge'].forEach(k => r.style.setProperty(`--glass-${k}`, glass[k]));
+  r.classList.toggle('glass-panels', !!glass.panels);
+  r.classList.toggle('glass-tracks', !!glass.tracks);
+}
+applyGlass();
+
+/* ===== EDIT HERE ===== */
+/* Arriving on a slide: true = card pops in, then its content; false = no entrance. */
+const SLIDE_POP = false;
+/* ===== stop editing here ===== */
+
+/* Bloom: one per content block on the panel in view. Clicking a block brightens
+   its bloom and dims the rest. New blooms split off the first one. */
+const blooms = [$('bloom')], panels = [...document.querySelectorAll('.panel')];
+{
+  const shown = panels.filter(p => !p.hidden);
+  shown.forEach((p, i) => p.insertAdjacentHTML('beforeend', `<span class="pageno" aria-hidden="true">${i + 1} / ${shown.length}</span>`));
+}
+let pinned = null, raf = 0;
+/* Bloom is 900px and fades out by 74% of its radius; scale it to cover the box. */
+const fit = (r, pad) => ({ x: r.left + r.width / 2, y: r.top + r.height / 2,
+  s: Math.min(2.6, Math.max(.3, Math.max(r.width, r.height) * pad / 666)) });
+/* Content blocks: each .blk, or a top-level child that holds no .blk. */
+function blocks(p) {
+  const out = [];
+  for (const c of p.children) {
+    if (c.matches('.brand-foot, .brand-tag')) continue;
+    const inner = c.matches('.blk') ? [] : [...c.querySelectorAll('.blk')];
+    out.push(...(inner.length ? inner : [c]));
+  }
+  return out.filter(el => { const r = el.getBoundingClientRect(); return r.width && r.height && el.getAttribute('aria-hidden') !== 'true'; });
+}
+function bloomAt(i) {
+  while (blooms.length <= i) {
+    const b = blooms[0].cloneNode();
+    b.removeAttribute('id');
+    b.style.opacity = 0;
+    blooms[blooms.length - 1].after(b);
+    b.getBoundingClientRect();
+    blooms.push(b);
+  }
+  return blooms[i];
+}
+function aim() {
+  raf = 0;
+  const vh = innerHeight;
+  let panel = null, focus = null;
+  if (pinned) {
+    const r = pinned.getBoundingClientRect();
+    if (r.bottom > 0 && r.top < vh) { focus = pinned; panel = pinned.closest('.panel'); }
+  }
+  if (!panel) {
+    let bestVis = 0;
+    for (const p of panels) {
+      const r = p.getBoundingClientRect();
+      const vis = Math.min(r.bottom, vh) - Math.max(r.top, 0);
+      if (vis > bestVis) { bestVis = vis; panel = p; }
+    }
+  }
+  if (!panel) return;
+  let targets = blocks(panel).map(el => ({ el, ...fit(el.getBoundingClientRect(), el === focus ? 1.15 : 1.05) }));
+  if (!targets.length) {
+    const r = panel.getBoundingClientRect();
+    const [fx, fy] = (panel.dataset.rest || '0.5,0.5').split(',').map(Number);
+    targets = [{ el: null, x: r.left + r.width * fx, y: r.top + r.height * fy, s: 1.1 }];
+  }
+  targets.forEach((t, i) => {
+    const b = bloomAt(i);
+    b.style.transform = `translate(${t.x}px,${t.y}px) scale(${t.s})`;
+    b.style.opacity = focus ? (t.el === focus ? .95 : .3) : .9;
+  });
+  for (let i = targets.length; i < blooms.length; i++) blooms[i].style.opacity = 0;
+}
+const queueAim = () => { if (!raf) raf = requestAnimationFrame(aim); };
+addEventListener('scroll', queueAim, { passive: true });
+addEventListener('resize', queueAim);
+
+/* Presenting: → / space / page down moves to the next slide; ← / page up goes back.
+   Works with slide clickers. */
+function currentPanel() {
+  const vh = innerHeight; let best = null, bestVis = 0;
+  for (const p of panels) {
+    if (p.hidden) continue;
+    const r = p.getBoundingClientRect();
+    const vis = Math.min(r.bottom, vh) - Math.max(r.top, 0);
+    if (vis > bestVis) { bestVis = vis; best = p; }
+  }
+  return best;
+}
+function advance(dir) {
+  const p = currentPanel(); if (!p) return;
+  const list = panels.filter(x => !x.hidden), next = list[list.indexOf(p) + dir];
+  if (next) { enterSlide(next); next.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+}
+/* Scroll-jacking: one swipe or wheel notch = one slide. Trackpad momentum keeps sending
+   wheel events after the fingers lift, so after a move we ignore input until it goes
+   quiet, or until a clearly new swipe starts (delta jumps back up). */
+let slideTarget = null, slideAt = 0;
+function goSlide(dir) {
+  const now = performance.now();
+  const p = slideTarget && now - slideAt < 900 ? slideTarget : currentPanel(); if (!p) return;
+  const list = panels.filter(x => !x.hidden), next = list[list.indexOf(p) + dir];
+  if (next) { slideTarget = next; slideAt = now; enterSlide(next); next.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+}
+let wheelLockUntil = 0, wheelLast = 0, wheelMags = [], wheelLocked = false;
+addEventListener('wheel', e => {
+  if (e.ctrlKey || e.target.closest('.devmenu')) return;
+  e.preventDefault();
+  const now = performance.now(), mag = Math.abs(e.deltaY), quiet = now - wheelLast;
+  wheelLast = now;
+  if (wheelLocked) {
+    const newSwipe = now > wheelLockUntil && mag > 30 && wheelMags.length >= 4 && mag > Math.min(...wheelMags) * 3;
+    if (quiet > 160 || newSwipe) { wheelLocked = false; wheelMags = []; }
+  }
+  wheelMags = [...wheelMags, mag].slice(-4);
+  if (wheelLocked || mag < 4) return;
+  wheelLocked = true; wheelLockUntil = now + 600;
+  goSlide(e.deltaY > 0 ? 1 : -1);
+}, { passive: false });
+
+document.addEventListener('keydown', e => {
+  if (e.target.closest('input, select, textarea')) return;
+  if (e.target.closest('.devmenu')) e.target.blur();
+  if (e.key.toLowerCase() === 'r' && !e.metaKey && !e.ctrlKey && !e.altKey) {
+    const p = currentPanel();
+    if (pinned && p?.contains(pinned)) { pinned.classList.remove('is-active'); pinned = null; queueAim(); }
+    return;
+  }
+  if (e.key.toLowerCase() === 'y' && !e.metaKey && !e.ctrlKey && !e.altKey) {
+    if (pinned) { pinned.classList.remove('is-active'); pinned = null; }
+    const first = panels.find(x => !x.hidden);
+    if (first) { enterSlide(first); first.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+    return;
+  }
+  if (['ArrowRight', 'ArrowDown', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); advance(1); }
+  else if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) { e.preventDefault(); advance(-1); }
+});
+
+/* Slide pop (only when SLIDE_POP is true): slides out of view stay hidden; the one
+   arriving pops its card in, then its content. */
+if (SLIDE_POP) document.documentElement.classList.add('slide-pop');
+let shownSlide = null;
+function enterSlide(p) {
+  if (!p || p === shownSlide) return;
+  shownSlide?.classList.remove('is-shown', 'is-entering');
+  shownSlide = p;
+  p.classList.remove('is-entering'); void p.offsetWidth;
+  p.classList.add('is-shown', 'is-entering');
+  clearTimeout(p._pop); p._pop = setTimeout(() => p.classList.remove('is-entering'), 900);
+}
+addEventListener('scrollend', () => enterSlide(currentPanel()));
+
+/* Any reload, including a hard one, reopens on the slide last in view. */
+const SLIDE_KEY = 'nov26.slide';
+const shownPanels = () => panels.filter(p => !p.hidden);
+history.scrollRestoration = 'manual';
+try {
+  const i = +localStorage.getItem(SLIDE_KEY), p = shownPanels()[i];
+  if (i > 0 && p) p.scrollIntoView({ block: 'center' });
+} catch (err) {}
+let saveSlide = 0;
+addEventListener('scroll', () => {
+  clearTimeout(saveSlide);
+  saveSlide = setTimeout(() => {
+    const p = currentPanel();
+    if (p) try { localStorage.setItem(SLIDE_KEY, shownPanels().indexOf(p)); } catch (err) {}
+  }, 200);
+}, { passive: true });
+enterSlide(currentPanel());
+
+aim();
+requestAnimationFrame(() => blooms.forEach(b => b.classList.add('is-ready')));
+
+/* Dev menu rows (the menu itself only shows on local copies; see css/js dev-menu-container). */
+{
+  const TEMPLATES = [['editorial','Editorial'],['slate','Slate'],['warm','Warm'],['plum','Plum'],['tide','Tide'],
+                     ['ember','Ember'],['moss','Moss'],['dusk','Dusk'],['paper','Paper'],['fog','Fog']];
+  const BLOOMS = [['','Match template'],['green','Green'],['blue','Blue'],['amber','Amber'],['violet','Violet'],
+                  ['teal','Teal'],['coral','Coral'],['lime','Lime'],['pink','Pink'],['rust','Rust'],['indigo','Indigo']];
+  const root = document.documentElement, body = $('dev-controls-body');
+  const save = (k, v) => { try { localStorage.setItem(k, v); } catch(e) {} };
+  const select = (label, items, value, onChange) => {
+    const row = document.createElement('label'); row.className = 'devmenu__row';
+    row.innerHTML = `<span class="devmenu__label">${label}</span><select class="devmenu__select">${items.map(([v, l]) =>
+      `<option value="${v}"${v === value ? ' selected' : ''}>${l}</option>`).join('')}</select>`;
+    row.querySelector('select').addEventListener('change', e => onChange(e.target.value));
+    body.append(row);
+  };
+  const range = (label, min, max, step, value, unit, onInput) => {
+    const row = document.createElement('label'); row.className = 'devmenu__row';
+    row.innerHTML = `<span class="devmenu__label">${label}</span><span class="devmenu__range"><input type="range" min="${min}" max="${max}" step="${step}" value="${value}"><output>${value}${unit}</output></span>`;
+    const input = row.querySelector('input'), out = row.querySelector('output');
+    input.addEventListener('input', () => { out.textContent = input.value + unit; onInput(+input.value); });
+    body.append(row); return input;
+  };
+  const toggle = (label, value, onChange) => {
+    const row = document.createElement('label'); row.className = 'devmenu__row';
+    row.innerHTML = `<span class="devmenu__label">${label}</span><input type="checkbox" class="devmenu__switch"${value ? ' checked' : ''}>`;
+    const input = row.querySelector('input');
+    input.addEventListener('change', () => onChange(input.checked));
+    body.append(row); return input;
+  };
+  const section = t => { const d = document.createElement('div'); d.className = 'devmenu__section'; d.textContent = t; body.append(d); };
+
+  section('Color');
+  select('Template', TEMPLATES, template, v => { template = v; root.dataset.template = v; save(TPL_KEY, v); });
+  select('Bloom', BLOOMS, bloomColor, v => { bloomColor = v; if (v) root.dataset.bloom = v; else delete root.dataset.bloom; save(BLOOM_KEY, v); });
+  const strengthNow = bloomStrength || Math.round(parseFloat(getComputedStyle(root).getPropertyValue('--glow-a')) * 100);
+  range('Bloom strength', 10, 100, 5, strengthNow, '%', v => { bloomStrength = v; root.style.setProperty('--glow-a', v / 100); save(STRENGTH_KEY, v); });
+
+  section('Glass');
+  const setGlass = (k, v) => { glass[k] = v; applyGlass(); save(GLASS_KEY, JSON.stringify(glass)); };
+  const inputs = {
+    tint: range('Tint', 0, 30, 1, glass.tint, '%', v => setGlass('tint', v)),
+    blur: range('Blur', 0, 80, 2, glass.blur, 'px', v => setGlass('blur', v)),
+    sat: range('Saturation', 100, 250, 5, glass.sat, '%', v => setGlass('sat', v)),
+    edge: range('Edge', 0, 50, 1, glass.edge, '%', v => setGlass('edge', v)),
+    panels: toggle('Glass on slide panels', glass.panels, v => setGlass('panels', v)),
+    tracks: toggle('Glass on timeline tracks', glass.tracks, v => setGlass('tracks', v)),
+  };
+  const reset = document.createElement('div'); reset.className = 'devmenu__row';
+  reset.innerHTML = '<span class="devmenu__label">Glass defaults</span><button type="button" class="devmenu__action">Reset</button>';
+  reset.querySelector('button').addEventListener('click', () => {
+    glass = { ...GLASS_DEFAULTS }; applyGlass(); save(GLASS_KEY, JSON.stringify(glass));
+    const units = { tint: '%', blur: 'px', sat: '%', edge: '%' };
+    Object.entries(inputs).forEach(([k, el]) => {
+      if (el.type === 'checkbox') el.checked = glass[k];
+      else { el.value = glass[k]; el.nextElementSibling.textContent = glass[k] + units[k]; }
+    });
+  });
+  body.append(reset);
+}
+</script>
+<script src="js/dev-menu-container.js"></script>
+</body>
+</html>

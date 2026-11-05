@@ -1,0 +1,87 @@
+/* Dev menu container — plain CSS, no Tailwind or icon font needed.
+   Theme it by overriding the --devmenu-* variables on .devmenu or any ancestor. */
+.devmenu {
+  --devmenu-bg: #ffffff;
+  --devmenu-head-bg: #f9fafb;
+  --devmenu-fg: #374151;
+  --devmenu-muted: #6b7280;
+  --devmenu-border: #e5e7eb;
+  --devmenu-hover: #f3f4f6;
+  --devmenu-accent: #2563eb;
+  --devmenu-radius: 12px;
+  --devmenu-font: inherit;
+  --devmenu-width: 288px;
+  position: relative;
+  font-family: var(--devmenu-font);
+}
+/* Local-only: hidden unless the script confirms a local host, so a deployed
+   copy never shows it, even if the script fails to load. */
+.devmenu[data-local-only]:not([data-local-ok]) { display: none !important; }
+
+.devmenu__btn {
+  width: 36px; height: 36px; display: grid; place-items: center; cursor: pointer;
+  border: 1px dashed var(--devmenu-border); border-radius: 8px;
+  background: var(--devmenu-head-bg); color: var(--devmenu-muted);
+  transition: background-color .15s, color .15s, border-color .15s;
+}
+.devmenu__btn:hover, .devmenu__btn[aria-expanded="true"] {
+  background: var(--devmenu-hover); color: var(--devmenu-fg); border-color: var(--devmenu-muted);
+}
+.devmenu__icon { width: 16px; height: 16px; flex: none; }
+
+.devmenu__panel {
+  position: absolute; z-index: 9999; width: var(--devmenu-width); overflow: hidden;
+  background: var(--devmenu-bg); color: var(--devmenu-fg);
+  border: 1px solid var(--devmenu-border); border-radius: var(--devmenu-radius);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, .25);
+  bottom: 100%; left: 100%; margin: 0 0 8px 8px; /* default: opens up and to the right */
+}
+.devmenu__panel[hidden] { display: none; }
+.devmenu[data-place="down-right"] .devmenu__panel { bottom: auto; top: 100%; left: 0; margin: 8px 0 0; }
+.devmenu[data-place="down-left"]  .devmenu__panel { bottom: auto; top: 100%; left: auto; right: 0; margin: 8px 0 0; }
+.devmenu[data-place="up-left"]    .devmenu__panel { left: auto; right: 100%; margin: 0 8px 8px 0; }
+
+.devmenu__head {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding: 12px 16px; background: var(--devmenu-head-bg); border-bottom: 1px solid var(--devmenu-border);
+}
+.devmenu__title { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; }
+.devmenu__title .devmenu__icon { color: var(--devmenu-muted); }
+.devmenu__close {
+  width: 24px; height: 24px; display: grid; place-items: center; cursor: pointer;
+  border: 0; border-radius: 6px; background: none; color: var(--devmenu-muted);
+}
+.devmenu__close:hover { background: var(--devmenu-hover); color: var(--devmenu-fg); }
+
+.devmenu__body { max-height: min(70vh, 640px); overflow-y: auto; }
+.devmenu__section {
+  padding: 12px 16px 4px; font-size: 12px; font-weight: 600; color: var(--devmenu-muted);
+  border-top: 1px solid var(--devmenu-border);
+}
+.devmenu__section:first-child { border-top: 0; }
+.devmenu__row {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 8px 16px; font-size: 12px;
+}
+.devmenu__row + .devmenu__row { border-top: 1px solid var(--devmenu-border); }
+.devmenu__label { font-weight: 500; color: var(--devmenu-fg); }
+
+/* Controls */
+.devmenu__select {
+  font: inherit; font-size: 12px; color: var(--devmenu-fg); background: var(--devmenu-head-bg);
+  border: 1px solid var(--devmenu-border); border-radius: 6px; padding: 4px 6px; max-width: 150px;
+}
+.devmenu__range { display: flex; align-items: center; gap: 8px; }
+.devmenu__range input { width: 110px; accent-color: var(--devmenu-accent); }
+.devmenu__range output { min-width: 4ch; text-align: right; font-variant-numeric: tabular-nums; color: var(--devmenu-muted); }
+.devmenu__switch { appearance: none; width: 32px; height: 18px; border-radius: 9px; cursor: pointer; position: relative;
+  background: var(--devmenu-border); transition: background-color .15s; margin: 0; flex: none; }
+.devmenu__switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px;
+  border-radius: 50%; background: #fff; transition: transform .15s; }
+.devmenu__switch:checked { background: var(--devmenu-accent); }
+.devmenu__switch:checked::after { transform: translateX(14px); }
+.devmenu__action {
+  font: inherit; font-size: 12px; cursor: pointer; color: var(--devmenu-fg);
+  background: var(--devmenu-head-bg); border: 1px solid var(--devmenu-border); border-radius: 6px; padding: 4px 10px;
+}
+.devmenu__action:hover { background: var(--devmenu-hover); }
