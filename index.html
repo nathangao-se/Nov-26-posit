@@ -607,7 +607,7 @@ function isLocal() {
     ||/^172\.(1[6-9]|2\d|3[01])\./.test(h);
 }
 /* Saved color defaults: what the deployed deck shows. The dev menu's Save to source rewrites this line. */
-/* deck-defaults */ const DECK_DEFAULTS = {"template":"me","meFirst":"editorial","meSecond":"sage","meSecondBloom":"blue","bloom":"lime","bloomStrength":"40"}; /* /deck-defaults */
+/* deck-defaults */ const DECK_DEFAULTS = {"template":"me","meFirst":"editorial","meSecond":"paper","meSecondBloom":"blue","bloom":"blue","bloomStrength":"30"}; /* /deck-defaults */
 const TPL_KEY = 'nov26.template';
 let template = DECK_DEFAULTS.template;
 try { template = localStorage.getItem(TPL_KEY) || template; } catch(e) {}
