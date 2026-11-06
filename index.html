@@ -193,7 +193,15 @@
   .card.blk { margin: 0; }
   .card strong { color: var(--ink); font-weight: 600; }
   .quote-cards .t-b2 { color: color-mix(in srgb, var(--ink-body) 62%, transparent); }
-  .card > .t-h3:has(+ .t-h2) { font-size: calc(24 * var(--u)); font-weight: 500; letter-spacing: -.005em; }
+  .card > .t-h3:has(+ .t-h2, + .t-b2) { font-size: calc(24 * var(--u)); font-weight: 500; color: var(--accent-soft); letter-spacing: -.005em; }
+  .strong-cards .card .t-b2 { font-weight: 600; }
+  .col-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: auto 1fr 1fr; grid-auto-flow: column;
+    column-gap: calc(48 * var(--u)); row-gap: calc(20 * var(--u)); }
+  .col-head { font-weight: 600; color: var(--ink); }
+  .chip { align-self: flex-start; font-size: calc(18 * var(--u)); line-height: 1.3; font-weight: 500;
+    padding: calc(4 * var(--u)) calc(14 * var(--u)); border-radius: 999px;
+    border: 1px solid var(--hairline); color: var(--muted); }
+  .chip--short { color: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: calc(32 * var(--u)); }
   .team-layers { display: grid; grid-auto-rows: 1fr; gap: calc(24 * var(--u)); }
   .team-layer { flex-direction: row; align-items: center; gap: calc(48 * var(--u)); }
@@ -360,12 +368,23 @@
 
   <!-- 4. What this means -->
   <section class="panel" data-rest="0.5,0.55">
-    <h2 class="abs t-h1" style="--x:128;--y:128;--w:1584">How can Design help the team meet that vision? We can:</h2>
-    <div class="abs grid-2" style="--x:128;--y:272;--w:1664">
-      <div class="card blk"><h3 class="t-h3">Early cohesion</h3><p class="t-h2">Help map the whole system and design architecture, so no team solves its piece alone.</p></div>
-      <div class="card blk"><h3 class="t-h3">Upstream concepting</h3><p class="t-h2">Help set the foundations early, concepting at a unified vision level.</p></div>
-      <div class="card blk"><h3 class="t-h3">Big instead of little picture</h3><p class="t-h2">Help product direction focus on purpose instead of features and use cases.</p></div>
-      <div class="card blk"><h3 class="t-h3">Practice quality</h3><p class="t-h2">Help better support research and bring Service Design and other disciplines into the practice.</p></div>
+    <h2 class="abs t-h1" style="--x:128;--y:128;--w:1584">How can Design help the team meet that vision?</h2>
+    <div class="abs stack strong-cards" style="--x:128;--y:236;--w:1664;--gap:20">
+      <p class="t-b2 t-meta">Accomplish these goals:</p>
+      <div class="row">
+        <div class="card blk"><p class="t-b2">Improving process times for bringing new products and features faster to market</p></div>
+        <div class="card blk"><p class="t-b2">Reduced rework during product development which increases available build bandwidth</p></div>
+        <div class="card blk"><p class="t-b2">Increased customer outcomes and reduced volume and size of customer change requests</p></div>
+      </div>
+    </div>
+    <div class="abs stack strong-cards" style="--x:128;--y:560;--w:1664;--gap:20">
+      <p class="t-b2 t-meta">By bringing:</p>
+      <div class="row" style="--gap:32">
+      <div class="card blk"><h3 class="t-h3">Early cohesion</h3><p class="t-b2">Map the whole system and design architecture, so no team solves its piece alone.</p></div>
+      <div class="card blk"><h3 class="t-h3">Upstream concepting</h3><p class="t-b2">Concept foundations at a unified vision platform level.</p></div>
+      <div class="card blk"><h3 class="t-h3">Process quality</h3><p class="t-b2">Advise on process improvement, focusing on ideas and need instead of steps</p></div>
+      <div class="card blk"><h3 class="t-h3">Practice quality</h3><p class="t-b2">Collaboratively bring better Research, Service Design and other disciplines into practice.</p></div>
+      </div>
     </div>
     <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
   </section>
@@ -417,21 +436,16 @@
       <p class="kicker">What I’m doing now</p>
       <h2 class="t-h1">What I’m delivering now, and investing in next</h2>
     </div>
-    <div class="abs stack" style="--x:128;--y:280;--w:1664;--gap:20">
-      <p class="t-b2 t-meta">Short term: tactical</p>
-      <div class="row">
-        <div class="card blk"><h3 class="t-h3">Data ingestion</h3><p class="t-b3">Focusing on a single configurable ingestion framework with Alexis</p></div>
-        <div class="card blk"><h3 class="t-h3">Homepage/IA</h3><p class="t-b3">Developing research plans and streamlining component libraries with Lauren/Katie/Rachael</p></div>
-        <div class="card blk"><h3 class="t-h3">Sera</h3><p class="t-b3">Applying streamlining and component design principles to Sera behavior with Lauren</p></div>
-      </div>
-    </div>
-    <div class="abs stack" style="--x:128;--y:640;--w:1664;--gap:20">
-      <p class="t-b2 t-meta">Long term: strategic</p>
-      <div class="row">
-        <div class="card blk"><h3 class="t-h3">APM education</h3><p class="t-b3">Teaching Shelly and Maddie research practice.</p></div>
-        <div class="card blk"><h3 class="t-h3">Research advocacy</h3><p class="t-b3">Research education and better discovery practice with Nikki and design team.</p></div>
-        <div class="card blk"><h3 class="t-h3">Carbon Performance</h3><p class="t-b3">Discussing product visioning outside of roadmap with Stef</p></div>
-      </div>
+    <div class="abs col-grid" style="--x:128;--y:272;--w:1664">
+      <h3 class="t-b2 col-head">Codesigning functionalities with product partners to get things closer to right upfront and reduce rework</h3>
+      <div class="card blk"><span class="chip">Long term</span><h3 class="t-h3">Carbon Performance</h3><p class="t-b3">Discussing product visioning outside of roadmap with Stef</p></div>
+      <div class="card blk"><span class="chip chip--short">Short term</span><h3 class="t-h3">Data ingestion</h3><p class="t-b3">Focusing on a single configurable ingestion framework with Alexis</p></div>
+      <h3 class="t-b2 col-head">Upleveling team skills to cross pollinate abilities and scale team capacity/judgment</h3>
+      <div class="card blk"><span class="chip">Long term</span><h3 class="t-h3">APM education</h3><p class="t-b3">Teaching Shelly and Maddie research practice.</p></div>
+      <div class="card blk"><span class="chip">Long term</span><h3 class="t-h3">Research advocacy</h3><p class="t-b3">Research education and better discovery practice with Nikki and design team.</p></div>
+      <h3 class="t-b2 col-head">Strategic 0-1 visioning to support the long term product strategy and drive coherence</h3>
+      <div class="card blk"><span class="chip chip--short">Short term</span><h3 class="t-h3">Homepage/IA</h3><p class="t-b3">Developing research plans and streamlining component libraries with Lauren/Katie/Rachael</p></div>
+      <div class="card blk"><span class="chip chip--short">Short term</span><h3 class="t-h3">Sera</h3><p class="t-b3">Applying streamlining and component design principles to Sera behavior with Lauren</p></div>
     </div>
     <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
   </section>
