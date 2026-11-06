@@ -606,22 +606,25 @@ function isLocal() {
     ||/\.local$/.test(h)||/^192\.168\./.test(h)||/^10\./.test(h)
     ||/^172\.(1[6-9]|2\d|3[01])\./.test(h);
 }
+/* Saved color defaults: what the deployed deck shows. The dev menu's Save to source rewrites this line. */
+/* deck-defaults */ const DECK_DEFAULTS = {"template":"me","meFirst":"editorial","meSecond":"sage","meSecondBloom":"blue","bloom":"pink","bloomStrength":"40"}; /* /deck-defaults */
 const TPL_KEY = 'nov26.template';
-let template = 'me';
+let template = DECK_DEFAULTS.template;
 try { template = localStorage.getItem(TPL_KEY) || template; } catch(e) {}
 /* "Me" is two templates: one for the opening slides, another from the slides marked data-part="me". */
 const ME_KEYS = ['nov26.meFirst', 'nov26.meSecond'];
-let meFirst = 'editorial', meSecond = 'warm';
+let meFirst = DECK_DEFAULTS.meFirst, meSecond = DECK_DEFAULTS.meSecond;
+const ME_SECOND_BLOOM = DECK_DEFAULTS.meSecondBloom;
 try { meFirst = localStorage.getItem(ME_KEYS[0]) || meFirst; meSecond = localStorage.getItem(ME_KEYS[1]) || meSecond; } catch(e) {}
 const templateFor = p => template !== 'me' ? template : (p?.dataset.part === 'me' ? meSecond : meFirst);
 document.documentElement.dataset.template = templateFor(null);
 const BLOOM_KEY = 'nov26.bloom';
-let bloomColor = '';
-try { bloomColor = localStorage.getItem(BLOOM_KEY) || ''; } catch(e) {}
+let bloomColor = DECK_DEFAULTS.bloom;
+try { bloomColor = localStorage.getItem(BLOOM_KEY) ?? bloomColor; } catch(e) {}
 if (bloomColor) document.documentElement.dataset.bloom = bloomColor;
 const STRENGTH_KEY = 'nov26.bloomStrength';
-let bloomStrength = '';
-try { bloomStrength = localStorage.getItem(STRENGTH_KEY) || ''; } catch(e) {}
+let bloomStrength = DECK_DEFAULTS.bloomStrength;
+try { bloomStrength = localStorage.getItem(STRENGTH_KEY) || bloomStrength; } catch(e) {}
 if (bloomStrength) document.documentElement.style.setProperty('--glow-a', bloomStrength / 100);
 const GLASS_KEY = 'nov26.glass';
 const GLASS_DEFAULTS = { tint: 1, blur: 16, sat: 180, edge: 22, panels: false, tracks: false };
@@ -695,7 +698,8 @@ function aim() {
   if (!panel) return;
   const tpl = templateFor(panel), root = document.documentElement;
   if (root.dataset.template !== tpl) root.dataset.template = tpl;
-  if (template === 'me' || !bloomColor) delete root.dataset.bloom; else root.dataset.bloom = bloomColor;
+  const bloom = template === 'me' ? (panel.dataset.part === 'me' ? ME_SECOND_BLOOM : '') : bloomColor;
+  if (bloom) root.dataset.bloom = bloom; else delete root.dataset.bloom;
   let targets = blocks(panel).map(el => ({ el, ...fit(el.getBoundingClientRect(), el === focus ? 1.15 : 1.05) }));
   if (!targets.length) {
     const r = panel.getBoundingClientRect();
@@ -857,6 +861,28 @@ requestAnimationFrame(() => blooms.forEach(b => b.classList.add('is-ready')));
   select('Bloom', BLOOMS, bloomColor, v => { bloomColor = v; if (v) root.dataset.bloom = v; else delete root.dataset.bloom; save(BLOOM_KEY, v); });
   const strengthNow = bloomStrength || Math.round(parseFloat(getComputedStyle(root).getPropertyValue('--glow-a')) * 100);
   range('Bloom strength', 10, 100, 5, strengthNow, '%', v => { bloomStrength = v; root.style.setProperty('--glow-a', v / 100); save(STRENGTH_KEY, v); });
+  /* Save to source: writes the current color settings into index.html as the deck defaults
+     (File System Access API, Chrome / Edge). Push afterwards to deploy them. */
+  let fileHandle = null;
+  const saveRow = document.createElement('div'); saveRow.className = 'devmenu__row';
+  saveRow.innerHTML = '<span class="devmenu__label">Color as deck defaults</span><button type="button" class="devmenu__action">Save to source</button>';
+  const saveBtn = saveRow.querySelector('button');
+  const flash = t => { saveBtn.textContent = t; clearTimeout(saveBtn._t); saveBtn._t = setTimeout(() => saveBtn.textContent = 'Save to source', 3000); };
+  saveBtn.addEventListener('click', async () => {
+    if (!window.showOpenFilePicker) { flash('Chrome or Edge only'); return; }
+    const next = { template, meFirst, meSecond, meSecondBloom: ME_SECOND_BLOOM, bloom: bloomColor, bloomStrength: String(bloomStrength || '') };
+    const line = `/* deck-defaults */ const DECK_DEFAULTS = ${JSON.stringify(next)}; /* /deck-defaults */`;
+    try {
+      if (!fileHandle) [fileHandle] = await showOpenFilePicker({ types: [{ description: 'Deck', accept: { 'text/html': ['.html'] } }] });
+      if ((await fileHandle.requestPermission({ mode: 'readwrite' })) !== 'granted') { flash('Permission denied'); return; }
+      const text = await (await fileHandle.getFile()).text();
+      const re = /\/\* deck-defaults \*\/.*?\/\* \/deck-defaults \*\//;
+      if (!re.test(text)) { fileHandle = null; flash('Wrong file: pick index.html'); return; }
+      const w = await fileHandle.createWritable(); await w.write(text.replace(re, line)); await w.close();
+      flash('Saved. Push to deploy');
+    } catch (err) { if (err.name !== 'AbortError') flash('Save failed'); }
+  });
+  body.append(saveRow);
 
   section('Glass');
   const setGlass = (k, v) => { glass[k] = v; applyGlass(); save(GLASS_KEY, JSON.stringify(glass)); };
