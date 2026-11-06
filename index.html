@@ -153,6 +153,7 @@
   .abs[style*="--y"] { top: calc(var(--y) * var(--u)); }
   .vc { top: 50%; transform: translateY(-50%); }
   .row { display: flex; gap: calc(var(--gap, 64) * var(--u)); }
+  .row:has(> .card) { --gap: 32; }
   .row > * { flex: 1 1 0; min-width: 0; }
   .stack { display: flex; flex-direction: column; gap: calc(var(--gap, 16) * var(--u)); }
   .blk.stack { --gap: 12; }
@@ -193,17 +194,16 @@
   .card.blk { margin: 0; }
   .card strong { color: var(--ink); font-weight: 600; }
   .quote-cards .t-b2 { color: color-mix(in srgb, var(--ink-body) 62%, transparent); }
-  .card > .t-h3:has(+ .t-h2, + .t-b2) { font-size: calc(24 * var(--u)); font-weight: 500; color: var(--accent-soft); letter-spacing: -.005em; }
+  .card:not(.team-layer) > .t-h3:has(+ .t-h2, + .t-b2) { font-size: calc(24 * var(--u)); font-weight: 500; color: var(--accent-soft); letter-spacing: -.005em; }
   .strong-cards .card .t-b2 { font-weight: 600; }
-  .col-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: auto 1fr 1fr; grid-auto-flow: column;
-    column-gap: calc(48 * var(--u)); row-gap: calc(20 * var(--u)); }
-  .col-head { font-weight: 600; color: var(--ink); }
-  .chip { align-self: flex-start; font-size: calc(18 * var(--u)); line-height: 1.3; font-weight: 500;
-    padding: calc(4 * var(--u)) calc(14 * var(--u)); border-radius: 999px;
-    border: 1px solid var(--hairline); color: var(--muted); }
-  .chip--short { color: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 45%, transparent); }
+  .col-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: auto 1fr 1fr; column-gap: calc(32 * var(--u)); }
+  .col-head { font-size: calc(24 * var(--u)); font-weight: 500; letter-spacing: -.005em; color: var(--accent-soft); padding-bottom: calc(24 * var(--u)); border-bottom: 1px solid var(--hairline); }
+  .col-card { grid-row: span 3; display: grid; grid-template-rows: subgrid; gap: calc(32 * var(--u)); }
+  .col-item { display: flex; flex-direction: column; gap: calc(12 * var(--u)); }
+  .deck-link { color: var(--accent-soft); text-decoration: underline; text-underline-offset: .2em; }
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: calc(32 * var(--u)); }
-  .team-layers { display: grid; grid-auto-rows: 1fr; gap: calc(24 * var(--u)); }
+  .team-layers { display: grid; grid-template-rows: auto; grid-auto-rows: 1fr; gap: calc(32 * var(--u)); }
+  .team-layers__head { display: flex; padding: 0 calc(41 * var(--u)); }
   .team-layer { flex-direction: row; align-items: center; gap: calc(48 * var(--u)); }
   .team-layer > * { flex: 1 1 0; min-width: 0; }
   /* .card.blk:hover, .emap__row.blk:hover { background: var(--glass-sheen), color-mix(in srgb, var(--ink) calc(var(--glass-tint) * 1% + 4%), transparent); } */
@@ -395,10 +395,11 @@
       <p class="kicker">Proposed team structure</p>
       <h2 class="t-h1">Collaboration at every level</h2>
     </div>
-    <div class="abs team-layers" style="--x:128;--y:330;--w:1664">
-      <div class="card team-layer"><p class="t-b2 t-meta">Earlier decision making</p><h3 class="t-h3">Principal Designer</h3><p class="t-b2"><span class="t-meta">Collaborators:</span> All, typically cross teams and at multiple levels</p></div>
-      <div class="card team-layer"><p class="t-b2 t-meta">Major feature design</p><h3 class="t-h3">Senior Designers</h3><p class="t-b2"><span class="t-meta">Collaborators:</span> Typically product managers, engineering leads, research</p></div>
-      <div class="card team-layer"><p class="t-b2 t-meta">Tactical execution</p><h3 class="t-h3">Junior Designers and contractors</h3><p class="t-b2"><span class="t-meta">Collaborators:</span> Ad hoc</p></div>
+    <div class="abs team-layers" style="--x:128;--y:290;--w:1664">
+      <div class="team-layer team-layers__head"><p class="t-b3 t-meta">Level</p><p class="t-b3 t-meta">General role</p><p class="t-b3 t-meta">Collaborators</p></div>
+      <div class="card team-layer"><h3 class="t-h3">Principal Designer</h3><p class="t-b2 t-meta">Earlier decision making</p><p class="t-b2">All, typically cross teams and at multiple levels</p></div>
+      <div class="card team-layer"><h3 class="t-h3">Senior Designers</h3><p class="t-b2 t-meta">Major feature design</p><p class="t-b2">Typically product managers, engineering leads, research</p></div>
+      <div class="card team-layer"><h3 class="t-h3">Junior Designers and contractors</h3><p class="t-b2 t-meta">Tactical execution</p><p class="t-b2">Ad hoc</p></div>
     </div>
     <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
   </section>
@@ -437,15 +438,21 @@
       <h2 class="t-h1">What I’m delivering now, and investing in next</h2>
     </div>
     <div class="abs col-grid" style="--x:128;--y:272;--w:1664">
-      <h3 class="t-b2 col-head">Codesigning functionalities with product partners to get things closer to right upfront and reduce rework</h3>
-      <div class="card blk"><span class="chip">Long term</span><h3 class="t-h3">Carbon Performance</h3><p class="t-b3">Discussing product visioning outside of roadmap with Stef</p></div>
-      <div class="card blk"><span class="chip chip--short">Short term</span><h3 class="t-h3">Data ingestion</h3><p class="t-b3">Focusing on a single configurable ingestion framework with Alexis</p></div>
-      <h3 class="t-b2 col-head">Upleveling team skills to cross pollinate abilities and scale team capacity/judgment</h3>
-      <div class="card blk"><span class="chip">Long term</span><h3 class="t-h3">APM education</h3><p class="t-b3">Teaching Shelly and Maddie research practice.</p></div>
-      <div class="card blk"><span class="chip">Long term</span><h3 class="t-h3">Research advocacy</h3><p class="t-b3">Research education and better discovery practice with Nikki and design team.</p></div>
-      <h3 class="t-b2 col-head">Strategic 0-1 visioning to support the long term product strategy and drive coherence</h3>
-      <div class="card blk"><span class="chip chip--short">Short term</span><h3 class="t-h3">Homepage/IA</h3><p class="t-b3">Developing research plans and streamlining component libraries with Lauren/Katie/Rachael</p></div>
-      <div class="card blk"><span class="chip chip--short">Short term</span><h3 class="t-h3">Sera</h3><p class="t-b3">Applying streamlining and component design principles to Sera behavior with Lauren</p></div>
+      <div class="card col-card">
+        <h3 class="t-b2 col-head">Codesigning functionalities with product partners to get things closer to right upfront and reduce rework</h3>
+        <div class="col-item"><h3 class="t-h3">Carbon Performance</h3><p class="t-b3">Discussing product visioning outside of roadmap and building space to plan and operate with Stef</p></div>
+        <div class="col-item"><h3 class="t-h3">Data ingestion</h3><p class="t-b3">Focusing on a single configurable ingestion framework to reduce duplicative building with Alexis</p></div>
+      </div>
+      <div class="card col-card">
+        <h3 class="t-b2 col-head">Upleveling team skills to cross pollinate abilities and scale team capacity/judgment</h3>
+        <div class="col-item"><h3 class="t-h3">APM education</h3><p class="t-b3">Supporting APM growth by educating Shelly and Maddie on both hard and soft research skills.</p></div>
+        <div class="col-item"><h3 class="t-h3">Research advocacy</h3><p class="t-b3">Supporting better discovery practice and introduction of Service Design with Nikki and Design team.</p></div>
+      </div>
+      <div class="card col-card">
+        <h3 class="t-b2 col-head">Strategic 0-1 visioning to support the long term product strategy and drive coherence</h3>
+        <div class="col-item"><h3 class="t-h3">Homepage/IA</h3><p class="t-b3">Developing research plans and streamlining component libraries with Lauren/Katie/Rachael</p></div>
+        <div class="col-item"><h3 class="t-h3">Sera</h3><p class="t-b3">Applying streamlining and component design principles to Sera behavior with Lauren</p></div>
+      </div>
     </div>
     <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
   </section>
@@ -465,9 +472,8 @@
   <!-- 10. Close -->
   <section class="panel" data-part="me" data-rest="0.3,0.5">
     <div class="abs vc stack" style="--x:128;--w:1400;--gap:28">
-      <p class="kicker">Next</p>
-      <h1 class="t-title">I want to understand, even better, what leadership is facing</h1>
-      <p class="t-h2 t-meta" style="margin-top:calc(32 * var(--u))">Let’s talk</p>
+      <h2 class="t-h1">This is a technical analysis of different design roles</h2>
+      <a class="t-b2 deck-link" href="https://www.figma.com/board/xHINF89VxK6l4QRzGjrp7i/SB-Product-Design-Career-Path-Matrix?node-id=565-702&amp;t=C8L6cFdorBcqsa9R-4" target="_blank" rel="noopener">SB Product Design Career Path Matrix ↗</a>
     </div>
   </section>
 
