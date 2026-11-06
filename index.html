@@ -161,7 +161,12 @@
   .card { border-radius: calc(24 * var(--u)); display: flex; flex-direction: column; gap: calc(16 * var(--u));
     padding: calc(40 * var(--u)); }
   .card.blk { margin: 0; }
-  .card > .t-h3 { font-size: calc(24 * var(--u)); font-weight: 500; letter-spacing: -.005em; }
+  .card strong { color: var(--ink); font-weight: 600; }
+  .quote-cards .t-b2 { color: color-mix(in srgb, var(--ink-body) 62%, transparent); }
+  .card > .t-h3:has(+ .t-h2) { font-size: calc(24 * var(--u)); font-weight: 500; letter-spacing: -.005em; }
+  .team-layers { display: grid; grid-auto-rows: 1fr; gap: calc(24 * var(--u)); }
+  .team-layer { flex-direction: row; align-items: center; gap: calc(48 * var(--u)); }
+  .team-layer > * { flex: 1 1 0; min-width: 0; }
   .card.blk:hover, .emap__row.blk:hover { background: var(--glass-sheen), color-mix(in srgb, var(--ink) calc(var(--glass-tint) * 1% + 4%), transparent); }
 
   .avatar { width: calc(132 * var(--u)); height: calc(132 * var(--u)); border-radius: 50%; flex: none;
@@ -285,24 +290,26 @@
   <section class="panel" data-rest="0.2,0.5">
     <h2 class="abs vc t-h1" style="--x:128;--w:560">The short version</h2>
     <div class="abs vc stack" style="--x:820;--w:960;--gap:56">
-      <div class="blk stack"><h3 class="t-h3">Where we are</h3><p class="t-b2">Our products now span many teams, clients and services, and the biggest decisions are made before design is in the room.</p></div>
-      <div class="blk stack"><h3 class="t-h3">What I bring</h3><p class="t-b2">Systems thinking across teams, information architecture, service design and research. <span class="ph">[credentials]</span></p></div>
+      <div class="blk stack"><h3 class="t-h3">Where we are</h3><p class="t-b2">Our ambitions point towards spanning many teams, clients and services, Design can help bring cohesion to the visions before delivery.</p></div>
+      <div class="blk stack"><h3 class="t-h3">What I bring</h3><p class="t-b2">High level systems thinking, information architecture, service and product design and research, with all of the low level execution capabilities to match.</p></div>
       <div class="blk stack"><h3 class="t-h3">Where I’d like to go</h3><p class="t-b2">Bring design in earlier across our data products, as Principal Designer.</p></div>
     </div>
     <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
   </section>
 
-  <!-- 3. A new world -->
+  <!-- 3. Service is the value -->
   <section class="panel" data-rest="0.5,0.4">
-    <div class="abs stack" style="--x:128;--y:120;--w:1500;--gap:20">
-      <p class="kicker">Where we are</p>
-      <h2 class="t-display">A new world of interconnected software and people, products and services.</h2>
+    <div class="abs stack" style="--x:128;--y:112;--w:1500;--gap:20">
+      <p class="kicker">In Lena’s own words</p>
+      <h2 class="t-h1">“Software &amp; connected devices create intelligence and enables action at scale.”</h2>
     </div>
-    <div class="abs row" style="--x:128;--y:620;--w:1664;--gap:72">
-      <div class="blk stack"><h3 class="t-h3">Software and people</h3><p class="t-b3">Our tools sit inside clients’ and suppliers’ daily work, not beside it.</p></div>
-      <div class="blk stack"><h3 class="t-h3">Products and services</h3><p class="t-b3">Onboarding, configuration and support are part of what clients buy.</p></div>
-      <div class="blk stack"><h3 class="t-h3">Many teams, one journey</h3><p class="t-b3">The same data passes through several products before anyone sees a result.</p></div>
+    <p class="abs t-b2 t-meta" style="--x:128;--y:388;--w:1664">Why SE formed the Software &amp; Services Division</p>
+    <div class="abs row quote-cards" style="--x:128;--y:452;--w:1664">
+      <div class="card blk"><p class="t-b2">Customers increasingly need <strong>integrated solutions (not disconnected capabilities)</strong> to solve complex energy and operational challenges.</p></div>
+      <div class="card blk"><p class="t-b2">AI-native Energy Intelligence creates the opportunity to <strong>scale domain expertise,</strong> automate decisions and <strong>continuously improve performance.</strong></p></div>
+      <div class="card blk"><p class="t-b2"><strong>Bringing Advisory, Software and Services together connects insight, action and execution across the customer lifecycle.</strong></p></div>
     </div>
+    <p class="abs t-h3" style="--x:128;--y:860;--w:1664">Everything’s moving towards an integrated, value generating ecosystem. Why should our software be different?</p>
     <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
   </section>
 
@@ -310,9 +317,9 @@
   <section class="panel" data-rest="0.5,0.55">
     <h2 class="abs t-h1" style="--x:128;--y:128;--w:1584">What this means, and how design ties in</h2>
     <div class="abs row" style="--x:128;--y:300;--w:1664">
-      <div class="card blk"><h3 class="t-h3">Problems span teams</h3><p class="t-h2">Design maps the whole system, so no team solves its piece alone.</p></div>
-      <div class="card blk"><h3 class="t-h3">Structure outlasts features</h3><p class="t-h2">Design sets the foundations early, before features pile on top.</p></div>
-      <div class="card blk"><h3 class="t-h3">Client asks keep coming</h3><p class="t-h2">Design turns one-off requests into things we can configure.</p></div>
+      <div class="card blk"><h3 class="t-h3">Early cohesion</h3><p class="t-h2">Design can help map the whole system, so no team solves its piece alone.</p></div>
+      <div class="card blk"><h3 class="t-h3">Upstream concepting</h3><p class="t-h2">Design can help set the foundations early, concepting at a unified vision level.</p></div>
+      <div class="card blk"><h3 class="t-h3">Big instead of little picture</h3><p class="t-h2">Design can help product direction focus on purpose instead of features and use cases.</p></div>
     </div>
     <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
   </section>
@@ -321,104 +328,60 @@
   <section class="panel" data-rest="0.5,0.55">
     <div class="abs stack" style="--x:128;--y:112;--w:1584;--gap:16">
       <p class="kicker">When design joins early</p>
-      <h2 class="t-h1">Early successes</h2>
+      <h2 class="t-h1">Early signals of success</h2>
     </div>
     <div class="abs row" style="--x:128;--y:330;--w:1664">
-      <div class="card blk"><h3 class="t-h3">Wyndham</h3><p class="t-h2">Found the real need in triage: individual uploads.</p><p class="t-b3">Joined early with Rusty, Lauren and Katie; the customizable homepage quickly became popular with the client.</p></div>
-      <div class="card blk"><h3 class="t-h3">Homepage and configuration</h3><p class="t-h2">Client asks configured, not custom built.</p><p class="t-b3">The configurator and entity schema came straight out of that insight.</p></div>
-      <div class="card blk"><h3 class="t-h3">Supply Chain</h3><p class="t-h2">A product-wide structure Product backed.</p><p class="t-b3">Education, Take Action, custom data upload and source-per-cell tables shipped along the way.</p></div>
+      <div class="card blk"><h3 class="t-h3">Homepage/Wyndham</h3><p class="t-h2">Early discovery: happier clients by building less</p><p class="t-b3">My early involvement directly led to a next gen configurable homepage, loved by Wyndham and opened the door for faster standardization.</p></div>
+      <div class="card blk"><h3 class="t-h3">Supply Chain/Pepsi</h3><p class="t-h2">Fast and slow collab can be transformative</p><p class="t-b3">I triaged filter designs, but also dove into participant data, education, and take action, nearly revamping the entire product in the process.</p></div>
+      <div class="card blk"><h3 class="t-h3">Carbon Performance/EAC</h3><p class="t-h2">SME collab over documentation gets faster results.</p><p class="t-b3">My direct SME collaboration over relying on documentation led to a rapidly iterated design, before backend disagreements slowed down the pace</p></div>
     </div>
     <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
   </section>
 
-  <!-- 6. Continuing work -->
+  <!-- 6. Work in progress: short term and long term -->
   <section class="panel" data-rest="0.5,0.45">
-    <div class="abs stack" style="--x:128;--y:128;--w:1584;--gap:16">
+    <div class="abs stack" style="--x:128;--y:112;--w:1584;--gap:16">
       <p class="kicker">In progress</p>
-      <h2 class="t-h1">Continuing work</h2>
+      <h2 class="t-h1">Delivering now, investing in what comes next</h2>
     </div>
-    <div class="abs row" style="--x:128;--y:420;--w:1664">
-      <div class="blk stack"><h3 class="t-h3">Carbon Performance EAC</h3><p class="t-b3">From version 1 with the whole product team to a research-led version 2.</p></div>
-      <div class="blk stack"><h3 class="t-h3">Upload and ingestion</h3><p class="t-b3">One upload and data management model across teams, with an ingestion and review flow alongside Alexis.</p></div>
-      <div class="blk stack"><h3 class="t-h3">Inventory review</h3><p class="t-b3">Early with Product on ways to review massive data sets.</p></div>
-      <div class="blk stack"><h3 class="t-h3">Sera</h3><p class="t-b3">Context panel and behavior across the platform, well beyond a chatbot, with Lauren.</p></div>
-    </div>
-    <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
-  </section>
-
-  <!-- 7. Strategic investment -->
-  <section class="panel" data-rest="0.5,0.45">
-    <div class="abs stack" style="--x:128;--y:128;--w:1584;--gap:16">
-      <p class="kicker">Strategic investment</p>
-      <h2 class="t-h1">Investing in what comes next</h2>
-    </div>
-    <div class="abs row" style="--x:128;--y:420;--w:1664">
-      <div class="blk stack"><h3 class="t-h3">APM education</h3><p class="t-b3">Teaching Shelly and Maddie research practice.</p></div>
-      <div class="blk stack"><h3 class="t-h3">Research advocacy</h3><p class="t-b3">Research education and better discovery practice, with Nikki.</p></div>
-      <div class="blk stack"><h3 class="t-h3">Service design</h3><p class="t-b3">Foresight into how our products and services fit together.</p></div>
-      <div class="blk stack"><h3 class="t-h3">Information architecture</h3><p class="t-b3">Navigation and wayfinding across the platform.</p></div>
-    </div>
-    <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
-  </section>
-
-  <!-- 8. Raising how the team works -->
-  <section class="panel" data-rest="0.2,0.5">
-    <h2 class="abs vc t-h1" style="--x:128;--w:480">Raising how the team works</h2>
-    <div class="abs vc stack" style="--x:712;--w:1080;--gap:80">
-      <div class="row" style="--gap:96">
-        <div class="blk stack"><h3 class="t-h3">Better discovery</h3><p class="t-b3">Key author of the recommendation on using JPD Insights for discovery; advocated it with JP, Nikki and the design team.</p></div>
-        <div class="blk stack"><h3 class="t-h3">Growing APMs</h3><p class="t-b3">Teaching Shelly and Maddie research practice, planting seeds for long-term team habits.</p></div>
-      </div>
-      <div class="row" style="--gap:96">
-        <div class="blk stack"><h3 class="t-h3">Research synthesis</h3><p class="t-b3">Actively pushing better synthesis practice across Carbon Performance and Supply Chain.</p></div>
-        <div class="blk stack"><h3 class="t-h3">What’s next</h3><p class="t-b3">Run the service-blueprint session as a workshop for product teams, and set up a recurring discovery practice.</p></div>
+    <div class="abs stack" style="--x:128;--y:280;--w:1664;--gap:20">
+      <p class="t-b2 t-meta">Short term: tactical</p>
+      <div class="row">
+        <div class="card blk"><h3 class="t-h3">Data ingestion</h3><p class="t-b3">Focusing on a single configurable ingestion framework with Alexis</p></div>
+        <div class="card blk"><h3 class="t-h3">Homepage/IA</h3><p class="t-b3">Developing research plans and streamlining component libraries with Lauren/Katie/Rachael</p></div>
+        <div class="card blk"><h3 class="t-h3">Sera</h3><p class="t-b3">Applying streamlining and component design principles to Sera behavior with Lauren</p></div>
       </div>
     </div>
-    <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
-  </section>
-
-  <!-- 9. Where we are -->
-  <section class="panel" data-rest="0.5,0.5">
-    <h2 class="abs t-h1" style="--x:128;--y:96;--w:1584">What upstream design looks like, and where we are</h2>
-    <div class="abs emap" style="--x:128;--y:236;--w:1664">
-      <div class="emap__row emap__head"><span class="t-b3">What upstream design does</span><span class="t-b3">Where it’s happening</span><span class="t-b3">Today</span></div>
-      <div class="emap__row blk"><span class="t-b2" style="color:var(--ink)">Works across teams</span><span class="t-b3">Upload model; Supply Chain end to end.</span><span class="t-b2 emap__status is-strong">Established</span></div>
-      <div class="emap__row blk"><span class="t-b2" style="color:var(--ink)">Finds problems early</span><span class="t-b3">Wyndham; platform information architecture.</span><span class="t-b2 emap__status is-strong">Established</span></div>
-      <div class="emap__row blk"><span class="t-b2" style="color:var(--ink)">Shapes strategy</span><span class="t-b3">Homepage configurator; IDMI and workflow.</span><span class="t-b2 emap__status is-thin">Emerging</span></div>
-      <div class="emap__row blk"><span class="t-b2" style="color:var(--ink)">Co-leads with product and engineering</span><span class="t-b3">The next step.</span><span class="t-b2 emap__status is-missing">Next</span></div>
+    <div class="abs stack" style="--x:128;--y:640;--w:1664;--gap:20">
+      <p class="t-b2 t-meta">Long term: strategic</p>
+      <div class="row">
+        <div class="card blk"><h3 class="t-h3">APM education</h3><p class="t-b3">Teaching Shelly and Maddie research practice.</p></div>
+        <div class="card blk"><h3 class="t-h3">Research advocacy</h3><p class="t-b3">Research education and better discovery practice with Nikki and design team.</p></div>
+        <div class="card blk"><h3 class="t-h3">Carbon Performance</h3><p class="t-b3">Discussing product visioning outside of roadmap with Stef</p></div>
+      </div>
     </div>
     <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
   </section>
 
   <!-- 10. Why I can help -->
   <section class="panel" data-rest="0.2,0.5">
-    <h2 class="abs vc t-h1" style="--x:128;--w:620">Why I can help</h2>
+    <h2 class="abs vc t-h1" style="--x:128;--w:620">I’ve also done this before</h2>
     <div class="abs vc stack" style="--x:900;--w:880;--gap:48">
-      <div class="blk stack"><h3 class="t-h3">At TransPerfect</h3><p class="t-b2"><span class="ph">[TransPerfect experience: role, scope, and what carries over]</span></p></div>
-      <div class="blk stack"><h3 class="t-h3">Here</h3><p class="t-b2">Complex, multi-team data products made understandable, from Wyndham to Supply Chain.</p></div>
-      <div class="blk stack"><h3 class="t-h3">Next</h3><p class="t-b2">The data experience end to end, platform information architecture, and how design enters decisions.</p></div>
+      <div class="blk stack"><h3 class="t-h3">At TransPerfect</h3><p class="t-b2">Led design for both client and internal facing tools, establishing and executing Research, Design, and entire process in-between at $1.4b company</p><p class="t-b3">- Client portal structural design: scaling revenue from $0.31M to $240M in 10 years, Converted at 10 times the rate of other similar products in the company</p><p class="t-b3">- Internal project management portal design: Single-handedly designed product that now runs entire company production workflow. Voluntary adoption rate of 85% of entire company user base in year 1 of launch</p></div>
     </div>
     <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
   </section>
 
-  <!-- 11. Early targets and goals -->
+  <!-- 8b. Team structure: layers -->
   <section class="panel" data-rest="0.5,0.5">
-    <h2 class="abs t-h1" style="--x:128;--y:112;--w:1584">Early targets and goals</h2>
-    <div class="abs row" style="--x:128;--y:260;--w:1664">
-      <div class="card blk"><h3 class="t-h3">First 90 days</h3><p class="t-h2"><span class="ph">[target]</span></p></div>
-      <div class="card blk"><h3 class="t-h3">By <span class="ph">[date]</span></h3><p class="t-h2"><span class="ph">[goal]</span></p></div>
-      <div class="card blk"><h3 class="t-h3">A clear role</h3><p class="t-h2">Principal Designer, so teams know where to bring problems early.</p></div>
+    <div class="abs stack" style="--x:128;--y:112;--w:1584;--gap:16">
+      <p class="kicker">Proposed team structure</p>
+      <h2 class="t-h1">Collaboration at every level</h2>
     </div>
-    <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
-  </section>
-
-  <!-- 12. Who can speak to the work -->
-  <section class="panel" data-rest="0.5,0.5">
-    <h2 class="abs t-h1" style="--x:128;--y:128;--w:1584">Who can speak to the work</h2>
-    <div class="abs row" style="--x:128;--y:420;--w:1664">
-      <div class="blk stack"><h3 class="t-h3">Lauren</h3><p class="t-b3">Homepage, Sera and Wyndham.</p></div>
-      <div class="blk stack"><h3 class="t-h3">Veronica and the Supply Chain product team</h3><p class="t-b3">Supply Chain, end to end.</p></div>
-      <div class="blk stack"><h3 class="t-h3">Shelly and Maddie</h3><p class="t-b3">Research coaching.</p></div>
+    <div class="abs team-layers" style="--x:128;--y:330;--w:1664">
+      <div class="card team-layer"><p class="t-b2 t-meta">Earlier decision making</p><h3 class="t-h3">Principal Designer</h3><p class="t-b2"><span class="t-meta">Collaborators:</span> All, typically cross teams and at multiple levels</p></div>
+      <div class="card team-layer"><p class="t-b2 t-meta">Major feature design</p><h3 class="t-h3">Senior Designers</h3><p class="t-b2"><span class="t-meta">Collaborators:</span> Typically product managers, engineering leads, research</p></div>
+      <div class="card team-layer"><p class="t-b2 t-meta">Tactical execution</p><h3 class="t-h3">Junior Designers and contractors</h3><p class="t-b2"><span class="t-meta">Collaborators:</span> Ad hoc</p></div>
     </div>
     <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
   </section>
