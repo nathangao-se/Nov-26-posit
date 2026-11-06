@@ -164,6 +164,7 @@
   .card strong { color: var(--ink); font-weight: 600; }
   .quote-cards .t-b2 { color: color-mix(in srgb, var(--ink-body) 62%, transparent); }
   .card > .t-h3:has(+ .t-h2) { font-size: calc(24 * var(--u)); font-weight: 500; letter-spacing: -.005em; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: calc(32 * var(--u)); }
   .team-layers { display: grid; grid-auto-rows: 1fr; gap: calc(24 * var(--u)); }
   .team-layer { flex-direction: row; align-items: center; gap: calc(48 * var(--u)); }
   .team-layer > * { flex: 1 1 0; min-width: 0; }
@@ -315,11 +316,12 @@
 
   <!-- 4. What this means -->
   <section class="panel" data-rest="0.5,0.55">
-    <h2 class="abs t-h1" style="--x:128;--y:128;--w:1584">What this means, and how design ties in</h2>
-    <div class="abs row" style="--x:128;--y:300;--w:1664">
-      <div class="card blk"><h3 class="t-h3">Early cohesion</h3><p class="t-h2">Design can help map the whole system, so no team solves its piece alone.</p></div>
-      <div class="card blk"><h3 class="t-h3">Upstream concepting</h3><p class="t-h2">Design can help set the foundations early, concepting at a unified vision level.</p></div>
-      <div class="card blk"><h3 class="t-h3">Big instead of little picture</h3><p class="t-h2">Design can help product direction focus on purpose instead of features and use cases.</p></div>
+    <h2 class="abs t-h1" style="--x:128;--y:128;--w:1584">How can Design help the team meet that vision? We can:</h2>
+    <div class="abs grid-2" style="--x:128;--y:272;--w:1664">
+      <div class="card blk"><h3 class="t-h3">Early cohesion</h3><p class="t-h2">Help map the whole system and design architecture, so no team solves its piece alone.</p></div>
+      <div class="card blk"><h3 class="t-h3">Upstream concepting</h3><p class="t-h2">Help set the foundations early, concepting at a unified vision level.</p></div>
+      <div class="card blk"><h3 class="t-h3">Big instead of little picture</h3><p class="t-h2">Help product direction focus on purpose instead of features and use cases.</p></div>
+      <div class="card blk"><h3 class="t-h3">Practice quality</h3><p class="t-h2">Help better support research and bring Service Design and other disciplines into the practice.</p></div>
     </div>
     <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
   </section>
