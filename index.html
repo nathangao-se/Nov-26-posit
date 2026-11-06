@@ -81,6 +81,16 @@
     --accent:#4f46e5; --accent-soft:#3730a3; --accent-wash:rgba(79,70,229,.10);
     --glow:rgb(79 70 229 / var(--glow-a)); --glow-a:.75; --glow-edge:rgba(79,70,229,0);
   }
+  /* "me" template: applied while a panel marked data-template="me" is in view. */
+  html[data-template="me"] {
+    --page:#1a0f33; --canvas:#24164a; --panel:#2c1c58;
+    --ink:#f5f2ff; --muted:#b9aedb; --ink-body:#e7e1fb; --dim:#8576ad;
+    --accent:#9d8cff; --accent-soft:#cbc2ff; --accent-wash:rgba(157,140,255,.14);
+    --glow:rgb(170 120 255 / var(--glow-a)); --glow-a:.55; --glow-edge:rgba(170,120,255,0);
+  }
+  @property --glow { syntax: '<color>'; inherits: true; initial-value: transparent; }
+  @property --glow-edge { syntax: '<color>'; inherits: true; initial-value: transparent; }
+  html { transition: --glow .8s ease, --glow-edge .8s ease; }
   /* Bloom color overrides; no data-bloom means the template's own glow. */
   html[data-bloom="green"]  { --glow:rgb(61 205 88 / var(--glow-a, .30)); --glow-edge:rgba(61,205,88,0); }
   html[data-bloom="blue"]   { --glow:rgb(91 157 255 / var(--glow-a, .30)); --glow-edge:rgba(91,157,255,0); }
@@ -96,7 +106,7 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-snap-type: y proximity; overscroll-behavior-x: none; }
   body { background: var(--page); font-family: 'Schibsted Grotesk', system-ui, sans-serif;
-         color: var(--ink); -webkit-font-smoothing: antialiased; }
+         color: var(--ink); -webkit-font-smoothing: antialiased; transition: background-color .8s ease, color .8s ease; }
 
   /* bloom (from the work hub) */
   .bloom { position: fixed; left: 0; top: 0; width: 900px; height: 900px;
@@ -117,7 +127,7 @@
     width: min(100vw - 48px, (100vh - 48px) * 16 / 9); aspect-ratio: 16 / 9;
     margin: 0 auto 24px; scroll-snap-align: center;
     background: color-mix(in srgb, var(--canvas) 55%, transparent);
-    border: 1px solid var(--hairline-soft); border-radius: var(--r); }
+    border: 1px solid var(--hairline-soft); border-radius: var(--r); transition: background-color .8s ease; }
   .panel > * { --u: calc(100cqw / 1920); }
 
   .abs { position: absolute; left: calc(var(--x) * var(--u)); width: calc(var(--w) * var(--u)); }
@@ -190,6 +200,21 @@
     font-size: calc(24 * var(--u)); letter-spacing: -.02em; color: var(--dim); }
   .brand-foot .logo { color: #0fb542; }
   .brand-foot { display: none; }
+  /* Corner tab: fixed to the top-right of the slide in view. Slide 1 shows the logo,
+     every other slide shows Back to top. One slides up and out, then the other drops in. */
+  .corner { --pw: min(100vw - 48px, (100vh - 48px) * 16 / 9); --u: calc(var(--pw) / 1920);
+    position: fixed; z-index: 20; top: max(24px, (100vh - var(--pw) * 9 / 16) / 2);
+    right: calc((100vw - var(--pw)) / 2 + 52 * var(--u)); overflow: hidden;
+    width: calc(360 * var(--u)); height: calc(61 * var(--u)); }
+  .corner > .brand-tag { right: 0; transform: translateY(-105%);
+    transition: transform 250ms cubic-bezier(0.4, 0, 0.7, 0.2); }
+  .corner > .brand-tag.is-on { transform: none;
+    transition: transform 380ms cubic-bezier(0.25, 1, 0.3, 1) 230ms; }
+  .corner > .brand-tag.is-bouncing { animation: tab-bounce 520ms cubic-bezier(0.34, 1.28, 0.64, 1); }
+  @keyframes tab-bounce { 0% { transform: none; } 35% { transform: translateY(-30%); } 100% { transform: none; } }
+  .to-top { border: 0; cursor: pointer; font-family: inherit; background: var(--ink); color: var(--canvas); white-space: nowrap; }
+  .to-top svg { width: calc(22 * var(--u)); height: calc(22 * var(--u)); flex: none; }
+  @media (prefers-reduced-motion: reduce) { .corner > .brand-tag { transition: none; animation: none; } }
   .pageno { position: absolute; left: calc(52 * var(--u)); bottom: calc(36 * var(--u)); font-size: calc(18 * var(--u)); color: var(--dim); opacity: .6; font-variant-numeric: tabular-nums; }
 
   /* Slide pop (SLIDE_POP in the script); delete this block with the flag to walk it back. */
@@ -281,10 +306,9 @@
   <!-- 1. Title -->
   <section class="panel" id="title" data-rest="0.3,0.5">
     <div class="abs vc stack" style="--x:128;--w:1400;--gap:28">
-      <p class="kicker">Nov 26 positioning</p>
-      <h1 class="t-title">How I can better help the team as a Principal Designer</h1>
+      <p class="kicker">Nathan Gao</p>
+      <h1 class="t-title">How can the Design team help the team’s transformation, and where I fit in</h1>
     </div>
-    <div class="brand-tag"><svg class="logo"><use href="#se-logo"/></svg></div>
   </section>
 
   <!-- 2. The short version -->
@@ -340,10 +364,23 @@
     <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
   </section>
 
+  <!-- 5b. The ask -->
+  <section class="panel" data-template="me" data-rest="0.2,0.5">
+    <div class="abs vc stack" style="--x:128;--w:620;--gap:16">
+      <h2 class="t-h1">I should be that Principal Designer</h2>
+    </div>
+    <div class="abs vc stack" style="--x:900;--w:880;--gap:56">
+      <div class="blk stack"><h3 class="t-h3">I already work this way</h3><p class="t-b2">My strongest work here started early and spanned teams, from Wyndham to Supply Chain to EAC.</p></div>
+      <div class="blk stack"><h3 class="t-h3">I’m already investing in the team</h3><p class="t-b2">Coaching research practice and pushing product visioning beyond the roadmap.</p></div>
+      <div class="blk stack"><h3 class="t-h3">I’ve done it before</h3><p class="t-b2">Led design end to end at TransPerfect, from a client portal to a company-wide production tool.</p></div>
+    </div>
+    <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
+  </section>
+
   <!-- 5. Early successes -->
-  <section class="panel" data-rest="0.5,0.55">
+  <section class="panel" data-template="me" data-rest="0.5,0.55">
     <div class="abs stack" style="--x:128;--y:112;--w:1584;--gap:16">
-      <p class="kicker">When design joins early</p>
+      <p class="kicker">When I join early</p>
       <h2 class="t-h1">Early signals of success</h2>
     </div>
     <div class="abs row" style="--x:128;--y:330;--w:1664">
@@ -355,10 +392,10 @@
   </section>
 
   <!-- 6. Work in progress: short term and long term -->
-  <section class="panel" data-rest="0.5,0.45">
+  <section class="panel" data-template="me" data-rest="0.5,0.45">
     <div class="abs stack" style="--x:128;--y:112;--w:1584;--gap:16">
-      <p class="kicker">In progress</p>
-      <h2 class="t-h1">Delivering now, investing in what comes next</h2>
+      <p class="kicker">What I’m doing now</p>
+      <h2 class="t-h1">What I’m delivering now, and investing in next</h2>
     </div>
     <div class="abs stack" style="--x:128;--y:280;--w:1664;--gap:20">
       <p class="t-b2 t-meta">Short term: tactical</p>
@@ -380,12 +417,24 @@
   </section>
 
   <!-- 10. Why I can help -->
-  <section class="panel" data-rest="0.2,0.5">
+  <section class="panel" data-template="me" data-rest="0.2,0.5">
     <h2 class="abs vc t-h1" style="--x:128;--w:620">I’ve also done this before</h2>
     <div class="abs vc stack" style="--x:900;--w:880;--gap:48">
-      <div class="blk stack"><h3 class="t-h3">At TransPerfect</h3><p class="t-b2">Led design for both client and internal facing tools, establishing and executing Research, Design, and entire process in-between at $1.4b company</p><p class="t-b3">- Client portal structural design: scaling revenue from $0.31M to $240M in 10 years, Converted at 10 times the rate of other similar products in the company</p><p class="t-b3">- Internal project management portal design: Single-handedly designed product that now runs entire company production workflow. Voluntary adoption rate of 85% of entire company user base in year 1 of launch</p></div>
+      <div class="blk stack"><h3 class="t-h3">At TransPerfect</h3><p class="t-b2">Led design for both client and internal facing tools, establishing and executing Research, Design, and entire process in-between at $1.4b company</p><div class="stack" style="--gap:32;margin-top:calc(12 * var(--u))">
+        <div class="stack" style="--gap:6"><p class="t-b3"><strong>Client portal structural design</strong></p><p class="t-b3">- Scaling revenue from $0.31M to $240M in 10 years</p><p class="t-b3">- Converted at 10 times the rate of other similar products in the company</p></div>
+        <div class="stack" style="--gap:6"><p class="t-b3"><strong>Internal project management portal design</strong></p><p class="t-b3">- Single-handedly designed product that now runs entire company production workflow</p><p class="t-b3">- Voluntary adoption rate of 85% of entire company user base in year 1 of launch</p></div>
+      </div></div>
     </div>
     <div class="brand-foot"><svg class="logo"><use href="#se-logo"/></svg></div>
+  </section>
+
+  <!-- 10. Close -->
+  <section class="panel" data-template="me" data-rest="0.3,0.5">
+    <div class="abs vc stack" style="--x:128;--w:1400;--gap:28">
+      <p class="kicker">Next</p>
+      <h1 class="t-title">I want to understand, even better, what leadership is facing</h1>
+      <p class="t-h2 t-meta" style="margin-top:calc(32 * var(--u))">Let’s talk</p>
+    </div>
   </section>
 
   <!-- Template layouts below stay hidden; copy one above and remove `hidden` to use it. -->
@@ -572,6 +621,10 @@ const blooms = [$('bloom')], panels = [...document.querySelectorAll('.panel')];
 {
   const shown = panels.filter(p => !p.hidden);
   shown.forEach((p, i) => p.insertAdjacentHTML('beforeend', `<span class="pageno" aria-hidden="true">${i + 1} / ${shown.length}</span>`));
+  document.body.insertAdjacentHTML('beforeend', '<div class="corner"><div class="brand-tag corner__logo"><svg class="logo"><use href="#se-logo"/></svg></div><button type="button" class="brand-tag to-top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>Back to top</button></div>');
+  document.querySelector('.to-top').addEventListener('click', () => {
+    enterSlide(shown[0]); shown[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
 }
 let pinned = null, raf = 0;
 /* Bloom is 900px and fades out by 74% of its radius; scale it to cover the box. */
@@ -615,6 +668,12 @@ function aim() {
     }
   }
   if (!panel) return;
+  const tpl = panel.dataset.template || template;
+  if (document.documentElement.dataset.template !== tpl) {
+    document.documentElement.dataset.template = tpl;
+    if (panel.dataset.template || !bloomColor) delete document.documentElement.dataset.bloom;
+    else document.documentElement.dataset.bloom = bloomColor;
+  }
   let targets = blocks(panel).map(el => ({ el, ...fit(el.getBoundingClientRect(), el === focus ? 1.15 : 1.05) }));
   if (!targets.length) {
     const r = panel.getBoundingClientRect();
@@ -700,7 +759,13 @@ let shownSlide = null;
 function enterSlide(p) {
   if (!p || p === shownSlide) return;
   shownSlide?.classList.remove('is-shown', 'is-entering');
+  const wasFirst = !shownSlide || shownSlide === panels.find(x => !x.hidden);
   shownSlide = p;
+  const isFirst = p === panels.find(x => !x.hidden);
+  const logo = document.querySelector('.corner__logo'), top = document.querySelector('.to-top');
+  logo.classList.toggle('is-on', isFirst);
+  top.classList.toggle('is-on', !isFirst);
+  if (!isFirst && !wasFirst) { top.classList.remove('is-bouncing'); void top.offsetWidth; top.classList.add('is-bouncing'); }
   p.classList.remove('is-entering'); void p.offsetWidth;
   p.classList.add('is-shown', 'is-entering');
   clearTimeout(p._pop); p._pop = setTimeout(() => p.classList.remove('is-entering'), 900);
@@ -730,7 +795,7 @@ requestAnimationFrame(() => blooms.forEach(b => b.classList.add('is-ready')));
 
 /* Dev menu rows (the menu itself only shows on local copies; see css/js dev-menu-container). */
 {
-  const TEMPLATES = [['editorial','Editorial'],['slate','Slate'],['warm','Warm'],['plum','Plum'],['tide','Tide'],
+  const TEMPLATES = [['editorial','Editorial'],['me','Me'],['slate','Slate'],['warm','Warm'],['plum','Plum'],['tide','Tide'],
                      ['ember','Ember'],['moss','Moss'],['dusk','Dusk'],['paper','Paper'],['fog','Fog']];
   const BLOOMS = [['','Match template'],['green','Green'],['blue','Blue'],['amber','Amber'],['violet','Violet'],
                   ['teal','Teal'],['coral','Coral'],['lime','Lime'],['pink','Pink'],['rust','Rust'],['indigo','Indigo']];
