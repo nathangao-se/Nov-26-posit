@@ -81,12 +81,31 @@
     --accent:#4f46e5; --accent-soft:#3730a3; --accent-wash:rgba(79,70,229,.10);
     --glow:rgb(79 70 229 / var(--glow-a)); --glow-a:.75; --glow-edge:rgba(79,70,229,0);
   }
-  /* "me" template: applied while a panel marked data-template="me" is in view. */
-  html[data-template="me"] {
-    --page:#1a0f33; --canvas:#24164a; --panel:#2c1c58;
-    --ink:#f5f2ff; --muted:#b9aedb; --ink-body:#e7e1fb; --dim:#8576ad;
-    --accent:#9d8cff; --accent-soft:#cbc2ff; --accent-wash:rgba(157,140,255,.14);
-    --glow:rgb(170 120 255 / var(--glow-a)); --glow-a:.55; --glow-edge:rgba(170,120,255,0);
+  /* Mid-tone templates: between the dark set and the light Paper / Fog. */
+  html[data-template="pewter"] {
+    --page:#2a3037; --canvas:#333a42; --panel:#3b434c;
+    --ink:#f3f5f8; --muted:#c1c8d1; --ink-body:#e3e7ed; --dim:#959eaa;
+    --hairline:rgba(255,255,255,.14); --hairline-soft:rgba(255,255,255,.08);
+    --fill-soft:rgba(255,255,255,.05); --fill-hover:rgba(255,255,255,.09);
+    --accent:#7cc4ff; --accent-soft:#b9ddff; --accent-wash:rgba(124,196,255,.14);
+    --glow:rgb(124 196 255 / var(--glow-a)); --glow-a:.30; --glow-edge:rgba(124,196,255,0);
+  }
+  html[data-template="clay"] {
+    --page:#3a2f29; --canvas:#433730; --panel:#4c3f37;
+    --ink:#fbf5ef; --muted:#d3c4b6; --ink-body:#efe4d9; --dim:#a69584;
+    --hairline:rgba(255,255,255,.14); --hairline-soft:rgba(255,255,255,.08);
+    --fill-soft:rgba(255,255,255,.05); --fill-hover:rgba(255,255,255,.09);
+    --accent:#ffb36b; --accent-soft:#ffd3a6; --accent-wash:rgba(255,179,107,.14);
+    --glow:rgb(255 179 107 / var(--glow-a)); --glow-a:.30; --glow-edge:rgba(255,179,107,0);
+  }
+  html[data-template="sage"] {
+    color-scheme: light;
+    --page:#b4bdb1; --canvas:#c3cbbf; --panel:#d0d7cc;
+    --ink:#161d14; --muted:#3c4739; --ink-body:#212a1f; --dim:#5c6758;
+    --hairline:rgba(22,29,20,.16); --hairline-soft:rgba(22,29,20,.09);
+    --fill-soft:rgba(22,29,20,.05); --fill-hover:rgba(22,29,20,.08);
+    --accent:#2f7d3a; --accent-soft:#1d5626; --accent-wash:rgba(47,125,58,.12);
+    --glow:rgb(47 125 58 / var(--glow-a)); --glow-a:.45; --glow-edge:rgba(47,125,58,0);
   }
   @property --glow { syntax: '<color>'; inherits: true; initial-value: transparent; }
   @property --glow-edge { syntax: '<color>'; inherits: true; initial-value: transparent; }
@@ -153,7 +172,8 @@
      highlight never shifts the layout. */
   .blk { padding: calc(20 * var(--u)); margin: calc(-20 * var(--u)); border-radius: var(--r);
     transition: background-color .15s; }
-  .blk:hover { background: var(--fill-hover); }
+  /* Hover highlights are off for now.
+  .blk:hover { background: var(--fill-hover); } */
   .blk.is-active { background: var(--accent-wash); box-shadow: inset 2px 0 0 var(--accent); }
 
   /* Glass surfaces; the dev menu tunes these four values. */
@@ -178,7 +198,7 @@
   .team-layers { display: grid; grid-auto-rows: 1fr; gap: calc(24 * var(--u)); }
   .team-layer { flex-direction: row; align-items: center; gap: calc(48 * var(--u)); }
   .team-layer > * { flex: 1 1 0; min-width: 0; }
-  .card.blk:hover, .emap__row.blk:hover { background: var(--glass-sheen), color-mix(in srgb, var(--ink) calc(var(--glass-tint) * 1% + 4%), transparent); }
+  /* .card.blk:hover, .emap__row.blk:hover { background: var(--glass-sheen), color-mix(in srgb, var(--ink) calc(var(--glass-tint) * 1% + 4%), transparent); } */
 
   .avatar { width: calc(132 * var(--u)); height: calc(132 * var(--u)); border-radius: 50%; flex: none;
     border: calc(4 * var(--u)) solid var(--accent);
@@ -365,7 +385,7 @@
   </section>
 
   <!-- 5b. The ask -->
-  <section class="panel" data-template="me" data-rest="0.2,0.5">
+  <section class="panel" data-part="me" data-rest="0.2,0.5">
     <div class="abs vc stack" style="--x:128;--w:620;--gap:16">
       <h2 class="t-h1">I should be that Principal Designer</h2>
     </div>
@@ -378,7 +398,7 @@
   </section>
 
   <!-- 5. Early successes -->
-  <section class="panel" data-template="me" data-rest="0.5,0.55">
+  <section class="panel" data-part="me" data-rest="0.5,0.55">
     <div class="abs stack" style="--x:128;--y:112;--w:1584;--gap:16">
       <p class="kicker">When I join early</p>
       <h2 class="t-h1">Early signals of success</h2>
@@ -392,7 +412,7 @@
   </section>
 
   <!-- 6. Work in progress: short term and long term -->
-  <section class="panel" data-template="me" data-rest="0.5,0.45">
+  <section class="panel" data-part="me" data-rest="0.5,0.45">
     <div class="abs stack" style="--x:128;--y:112;--w:1584;--gap:16">
       <p class="kicker">What I’m doing now</p>
       <h2 class="t-h1">What I’m delivering now, and investing in next</h2>
@@ -417,7 +437,7 @@
   </section>
 
   <!-- 10. Why I can help -->
-  <section class="panel" data-template="me" data-rest="0.2,0.5">
+  <section class="panel" data-part="me" data-rest="0.2,0.5">
     <h2 class="abs vc t-h1" style="--x:128;--w:620">I’ve also done this before</h2>
     <div class="abs vc stack" style="--x:900;--w:880;--gap:48">
       <div class="blk stack"><h3 class="t-h3">At TransPerfect</h3><p class="t-b2">Led design for both client and internal facing tools, establishing and executing Research, Design, and entire process in-between at $1.4b company</p><div class="stack" style="--gap:32;margin-top:calc(12 * var(--u))">
@@ -429,7 +449,7 @@
   </section>
 
   <!-- 10. Close -->
-  <section class="panel" data-template="me" data-rest="0.3,0.5">
+  <section class="panel" data-part="me" data-rest="0.3,0.5">
     <div class="abs vc stack" style="--x:128;--w:1400;--gap:28">
       <p class="kicker">Next</p>
       <h1 class="t-title">I want to understand, even better, what leadership is facing</h1>
@@ -587,9 +607,14 @@ function isLocal() {
     ||/^172\.(1[6-9]|2\d|3[01])\./.test(h);
 }
 const TPL_KEY = 'nov26.template';
-let template = 'editorial';
+let template = 'me';
 try { template = localStorage.getItem(TPL_KEY) || template; } catch(e) {}
-document.documentElement.dataset.template = template;
+/* "Me" is two templates: one for the opening slides, another from the slides marked data-part="me". */
+const ME_KEYS = ['nov26.meFirst', 'nov26.meSecond'];
+let meFirst = 'editorial', meSecond = 'warm';
+try { meFirst = localStorage.getItem(ME_KEYS[0]) || meFirst; meSecond = localStorage.getItem(ME_KEYS[1]) || meSecond; } catch(e) {}
+const templateFor = p => template !== 'me' ? template : (p?.dataset.part === 'me' ? meSecond : meFirst);
+document.documentElement.dataset.template = templateFor(null);
 const BLOOM_KEY = 'nov26.bloom';
 let bloomColor = '';
 try { bloomColor = localStorage.getItem(BLOOM_KEY) || ''; } catch(e) {}
@@ -668,12 +693,9 @@ function aim() {
     }
   }
   if (!panel) return;
-  const tpl = panel.dataset.template || template;
-  if (document.documentElement.dataset.template !== tpl) {
-    document.documentElement.dataset.template = tpl;
-    if (panel.dataset.template || !bloomColor) delete document.documentElement.dataset.bloom;
-    else document.documentElement.dataset.bloom = bloomColor;
-  }
+  const tpl = templateFor(panel), root = document.documentElement;
+  if (root.dataset.template !== tpl) root.dataset.template = tpl;
+  if (template === 'me' || !bloomColor) delete root.dataset.bloom; else root.dataset.bloom = bloomColor;
   let targets = blocks(panel).map(el => ({ el, ...fit(el.getBoundingClientRect(), el === focus ? 1.15 : 1.05) }));
   if (!targets.length) {
     const r = panel.getBoundingClientRect();
@@ -795,8 +817,8 @@ requestAnimationFrame(() => blooms.forEach(b => b.classList.add('is-ready')));
 
 /* Dev menu rows (the menu itself only shows on local copies; see css/js dev-menu-container). */
 {
-  const TEMPLATES = [['editorial','Editorial'],['me','Me'],['slate','Slate'],['warm','Warm'],['plum','Plum'],['tide','Tide'],
-                     ['ember','Ember'],['moss','Moss'],['dusk','Dusk'],['paper','Paper'],['fog','Fog']];
+  const TEMPLATES = [['me','Me'],['editorial','Editorial'],['slate','Slate'],['warm','Warm'],['plum','Plum'],['tide','Tide'],
+                     ['ember','Ember'],['moss','Moss'],['dusk','Dusk'],['pewter','Pewter'],['clay','Clay'],['sage','Sage'],['paper','Paper'],['fog','Fog']];
   const BLOOMS = [['','Match template'],['green','Green'],['blue','Blue'],['amber','Amber'],['violet','Violet'],
                   ['teal','Teal'],['coral','Coral'],['lime','Lime'],['pink','Pink'],['rust','Rust'],['indigo','Indigo']];
   const root = document.documentElement, body = $('dev-controls-body');
@@ -806,7 +828,7 @@ requestAnimationFrame(() => blooms.forEach(b => b.classList.add('is-ready')));
     row.innerHTML = `<span class="devmenu__label">${label}</span><select class="devmenu__select">${items.map(([v, l]) =>
       `<option value="${v}"${v === value ? ' selected' : ''}>${l}</option>`).join('')}</select>`;
     row.querySelector('select').addEventListener('change', e => onChange(e.target.value));
-    body.append(row);
+    body.append(row); return row;
   };
   const range = (label, min, max, step, value, unit, onInput) => {
     const row = document.createElement('label'); row.className = 'devmenu__row';
@@ -825,7 +847,13 @@ requestAnimationFrame(() => blooms.forEach(b => b.classList.add('is-ready')));
   const section = t => { const d = document.createElement('div'); d.className = 'devmenu__section'; d.textContent = t; body.append(d); };
 
   section('Color');
-  select('Template', TEMPLATES, template, v => { template = v; root.dataset.template = v; save(TPL_KEY, v); });
+  const applyTemplate = () => { root.dataset.template = templateFor(currentPanel()); meRows.forEach(r => r.hidden = template !== 'me'); queueAim(); };
+  select('Template', TEMPLATES, template, v => { template = v; save(TPL_KEY, v); applyTemplate(); });
+  const meRows = [
+    select('Me: slides 1–5', TEMPLATES.slice(1), meFirst, v => { meFirst = v; save(ME_KEYS[0], v); applyTemplate(); }),
+    select('Me: slides 6–10', TEMPLATES.slice(1), meSecond, v => { meSecond = v; save(ME_KEYS[1], v); applyTemplate(); }),
+  ];
+  applyTemplate();
   select('Bloom', BLOOMS, bloomColor, v => { bloomColor = v; if (v) root.dataset.bloom = v; else delete root.dataset.bloom; save(BLOOM_KEY, v); });
   const strengthNow = bloomStrength || Math.round(parseFloat(getComputedStyle(root).getPropertyValue('--glow-a')) * 100);
   range('Bloom strength', 10, 100, 5, strengthNow, '%', v => { bloomStrength = v; root.style.setProperty('--glow-a', v / 100); save(STRENGTH_KEY, v); });
